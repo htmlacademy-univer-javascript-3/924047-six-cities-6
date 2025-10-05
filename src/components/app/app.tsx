@@ -1,6 +1,6 @@
 import react from 'react';
 import MainPage from '../../pages/mainPage.tsx';
-import {Place} from "../../types/place.ts";
+import {Place} from '../../types/place.ts';
 
 type AppProps = {
   places: Place[];

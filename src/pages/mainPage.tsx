@@ -1,6 +1,6 @@
 import react from 'react';
-import PlaceCard from "../components/placeCard.tsx";
-import {Place} from "../types/place.ts";
+import PlaceCard from '../components/placeCard.tsx';
+import {Place} from '../types/place.ts';
 
 type MainPageProps = {
   places: Place[];
@@ -97,8 +97,8 @@ function MainPage({places}: MainPageProps): react.JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {places.map((place, index) => (
-                  <PlaceCard key={index} {...place} />
+                {places.map((place) => (
+                  <PlaceCard key={place.id} {...place} />
                 ))}
               </div>
             </section>

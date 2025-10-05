@@ -4,6 +4,7 @@ export enum PlaceType {
 }
 
 export type Place = {
+  id: number;
   placeImageSrc: string;
   isPremium: boolean;
   price: number;
