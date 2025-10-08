@@ -1,5 +1,5 @@
 import react from 'react';
-import {Helmet} from "react-helmet-async";
+import {Helmet} from 'react-helmet-async';
 
 function FavouritesPage(): react.JSX.Element {
   return (

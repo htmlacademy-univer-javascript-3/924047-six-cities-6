@@ -8,7 +8,7 @@ import LoginPage from '../../pages/loginPage.tsx';
 import FavouritesPage from '../../pages/favouritesPage.tsx';
 import OfferPage from '../../pages/offerPage.tsx';
 import AuthorizedRoute from '../authorizedRoute.tsx';
-import { HelmetProvider } from 'react-helmet-async'
+import { HelmetProvider } from 'react-helmet-async';
 type AppProps = {
   places: Place[];
 };
