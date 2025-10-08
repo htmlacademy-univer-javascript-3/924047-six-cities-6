@@ -1,4 +1,5 @@
 import react from 'react';
+import {Link} from 'react-router-dom';
 
 function NotFoundPage(): react.JSX.Element {
   return (
@@ -23,15 +24,18 @@ function NotFoundPage(): react.JSX.Element {
           height: '100vh',
           fontSize: '1.5rem',
           textAlign: 'center',
-        }}>
+        }}
+        >
           <div style={{
             fontSize: '10rem',
             fontWeight: 'bold',
             marginBottom: '1rem',
             color: '#666',
-          }}>404</div>
-          <hr style={{visibility: "hidden"}}></hr>
-          Requested resource not found. Go to <b><a href="/">main page</a></b>
+          }}
+          >404
+          </div>
+          <hr style={{visibility: 'hidden'}}></hr>
+          Requested resource not found. Go to <b><Link to="/">main page</Link></b>
         </div>
       </main>
     </div>
