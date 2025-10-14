@@ -1,8 +1,12 @@
 import react from 'react';
+import {Helmet} from 'react-helmet-async';
 
 function PropertyPage(): react.JSX.Element {
   return (
     <div className="page">
+      <Helmet>
+        <title> 6 cities - property </title>
+      </Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">

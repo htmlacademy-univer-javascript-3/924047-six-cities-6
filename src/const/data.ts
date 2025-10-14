@@ -1,4 +1,4 @@
-import {Place, PlaceType} from '../../types/place.ts';
+import {Place, PlaceType} from '../types/place.ts';
 
 export const placesData: Place[] = [
   {
