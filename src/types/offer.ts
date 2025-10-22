@@ -3,7 +3,16 @@ export enum PlaceType {
   Apartment = 'Apartment',
 }
 
-export type Place = {
+export enum Cities {
+  Amsterdam = 'Amsterdam',
+  Paris = 'Paris',
+  Cologne = 'Cologne',
+  Brussels = 'Brussels',
+  Hamburg = 'Hamburg',
+  Dusseldorf = 'Dusseldorf',
+}
+
+export type Offer = {
   id: number;
   placeImageSrc: string;
   isPremium: boolean;
@@ -12,4 +21,5 @@ export type Place = {
   isBookmarked: boolean;
   placeName: string;
   placeType: PlaceType;
+  city: Cities;
 }

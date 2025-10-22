@@ -1,6 +1,7 @@
 import react from 'react';
 import {Link} from 'react-router-dom';
 import {Helmet} from 'react-helmet-async';
+import {AppRoute} from '../const/routes.ts';
 
 function NotFoundPage(): react.JSX.Element {
   return (
@@ -12,9 +13,9 @@ function NotFoundPage(): react.JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link" href="main">
+              <Link className="footer__logo-link" to={AppRoute.Root}>
                 <img className="header__logo" src="../../markup/img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
