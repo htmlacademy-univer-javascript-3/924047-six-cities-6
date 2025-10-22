@@ -1,6 +1,6 @@
-import react from "react";
-import {Offer} from "../types/offer.ts";
-import FavouriteOfferCard from "./favouriteOfferCard.tsx";
+import react from 'react';
+import {Offer} from '../types/offer.ts';
+import FavouriteOfferCard from './favouriteOfferCard.tsx';
 
 type FavouriteOffersListProps = {
   offers: Offer[];
@@ -20,8 +20,8 @@ function FavouriteOffersList({offers}: FavouriteOffersListProps): react.JSX.Elem
   }, {});
   return (
     <div className="cities__places-list places__list tabs__content">
-      {Object.entries(offersByCity).map(([city, offers]) => (
-        <li className="favorites__locations-items">
+      {Object.entries(offersByCity).map(([city, cityOffers]) => (
+        <li className="favorites__locations-items" key={city}>
           <div className="favorites__locations locations locations--current">
             <div className="locations__item">
               <a className="locations__item-link" href="#">
@@ -30,12 +30,12 @@ function FavouriteOffersList({offers}: FavouriteOffersListProps): react.JSX.Elem
             </div>
           </div>
           <div className="favorites__places">
-            {offers.map((offer) => (<FavouriteOfferCard key={offer.id} offer={offer} />))}
+            {cityOffers.map((offer) => (<FavouriteOfferCard key={offer.id} offer={offer} />))}
           </div>
         </li>
       ))}
     </div>
-  )
+  );
 }
 
 export default FavouriteOffersList;

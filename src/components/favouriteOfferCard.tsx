@@ -1,7 +1,7 @@
 import react from 'react';
 import {Offer} from '../types/offer.ts';
-import {Link} from "react-router-dom";
-import {AppRoute} from "../const/routes.ts";
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../const/routes.ts';
 
 type FavouriteOfferCardProps = {
   offer: Offer;
@@ -19,7 +19,7 @@ function FavouriteOfferCard({offer}: FavouriteOfferCardProps): react.JSX.Element
       <div className="favorites__image-wrapper place-card__image-wrapper">
         <Link to={AppRoute.Offer.replace(':id', String(offer.id))}>
           <img className="place-card__image" src={offer.placeImageSrc} width="150" height="110"
-               alt="Offer image"
+            alt="Offer image"
           />
         </Link>
       </div>
@@ -30,7 +30,7 @@ function FavouriteOfferCard({offer}: FavouriteOfferCardProps): react.JSX.Element
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button className="place-card__bookmark-button place-card__bookmark-button--active button"
-                  type="button"
+            type="button"
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

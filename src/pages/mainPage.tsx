@@ -1,7 +1,7 @@
 import react from 'react';
 import {Offer} from '../types/offer.ts';
 import {Helmet} from 'react-helmet-async';
-import OffersList from "../components/offersList.tsx";
+import OffersList from '../components/offersList.tsx';
 
 type MainPageProps = {
   offers: Offer[];

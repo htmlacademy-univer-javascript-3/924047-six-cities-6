@@ -1,7 +1,7 @@
 import react from 'react';
 import {Helmet} from 'react-helmet-async';
-import {AppRoute} from "../const/routes.ts";
-import {Link} from "react-router-dom";
+import {AppRoute} from '../const/routes.ts';
+import {Link} from 'react-router-dom';
 
 function PropertyPage(): react.JSX.Element {
   return (

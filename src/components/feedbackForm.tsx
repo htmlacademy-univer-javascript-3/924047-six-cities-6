@@ -11,8 +11,9 @@ function FeedbackForm(): react.JSX.Element {
   const handleReviewText: FormEventHandler = (event) => {
     setReviewText((event.target as HTMLTextAreaElement).value);
   };
-
+  /* eslint-disable no-console */
   console.log(starsCount, reviewText);
+  /* eslint-disable no-console */
   const starNames = [undefined, 'terribly', 'badly', 'not bad', 'good', 'perfect'] as const;
 
   return (
@@ -22,7 +23,7 @@ function FeedbackForm(): react.JSX.Element {
         {[5, 4, 3, 2, 1].map((stars) => (
           <Fragment key={stars}>
             <input className="form__rating-input visually-hidden" name="rating" value={`${stars}`} id={`${stars}-stars`}
-                   type="radio" onInput={handleStarsClick}
+              type="radio" onInput={handleStarsClick}
             />
             <label htmlFor={`${stars}-stars`} className="reviews__rating-label form__rating-label" title={starNames[stars]}>
               <svg className="form__star-image" width="37" height="33">
@@ -34,10 +35,10 @@ function FeedbackForm(): react.JSX.Element {
 
       </div>
       <textarea className="reviews__textarea form__textarea" id="review" name="review"
-                placeholder="Tell how was your stay, what you like and what can be improved"
-                onInput={handleReviewText}
+        placeholder="Tell how was your stay, what you like and what can be improved"
+        onInput={handleReviewText}
       >
-                  </textarea>
+      </textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and

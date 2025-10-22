@@ -21,5 +21,5 @@ export type Offer = {
   isBookmarked: boolean;
   placeName: string;
   placeType: PlaceType;
-  city: Cities,
+  city: Cities;
 }

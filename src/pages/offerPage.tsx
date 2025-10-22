@@ -1,8 +1,8 @@
 import react from 'react';
 import {Helmet} from 'react-helmet-async';
-import {AppRoute} from "../const/routes.ts";
-import {Link} from "react-router-dom";
-import FeedbackForm from "../components/feedbackForm.tsx";
+import {AppRoute} from '../const/routes.ts';
+import {Link} from 'react-router-dom';
+import FeedbackForm from '../components/feedbackForm.tsx';
 
 function OfferPage(): react.JSX.Element {
   return (

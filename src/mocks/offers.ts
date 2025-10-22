@@ -1,4 +1,4 @@
-import {Cities, Offer, PlaceType} from "../types/offer.ts";
+import {Cities, Offer, PlaceType} from '../types/offer.ts';
 
 export const offerData: Offer[] = [
   {
@@ -69,4 +69,4 @@ export const offerData: Offer[] = [
   },
 ];
 
-export const favouritesOfferData: Offer[] = offerData.filter(offer => offer.isBookmarked);
+export const favouritesOfferData: Offer[] = offerData.filter((offer) => offer.isBookmarked);
