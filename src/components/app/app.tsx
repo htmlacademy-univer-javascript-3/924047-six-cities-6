@@ -1,7 +1,7 @@
 import react from 'react';
 import MainPage from '../../pages/mainPage.tsx';
 import NotFoundPage from '../../pages/notFoundPage.tsx';
-import {Place} from '../../types/place.ts';
+import {Offer} from '../../types/offer.ts';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const/routes.ts';
 import LoginPage from '../../pages/loginPage.tsx';
@@ -10,17 +10,18 @@ import OfferPage from '../../pages/offerPage.tsx';
 import AuthorizedRoute from '../authorizedRoute.tsx';
 import { HelmetProvider } from 'react-helmet-async';
 type AppProps = {
-  places: Place[];
+  offers: Offer[];
+  favouriteOffers: Offer[];
 };
 
-function App({places}: AppProps): react.JSX.Element {
+function App({offers, favouriteOffers}: AppProps): react.JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Root}
-            element={<MainPage places={places} />}
+            element={<MainPage offers={offers} />}
           />
           <Route
             path={AppRoute.Login}
@@ -28,13 +29,13 @@ function App({places}: AppProps): react.JSX.Element {
           />
           <Route
             path={AppRoute.Favourites}
-            element={<FavouritesPage />}
+            element={<FavouritesPage favouriteOffers={favouriteOffers} />}
           />
           <Route
             path={AppRoute.Offer}
             element={
               <AuthorizedRoute
-                authorizationStatus={AuthorizationStatus.NoAuth}
+                authorizationStatus={AuthorizationStatus.Auth} // TODO back to NoAuth
               >
                 <OfferPage/>
               </AuthorizedRoute>

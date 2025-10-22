@@ -1,13 +1,13 @@
 import react from 'react';
-import PlaceCard from '../components/placeCard.tsx';
-import {Place} from '../types/place.ts';
+import {Offer} from '../types/offer.ts';
 import {Helmet} from 'react-helmet-async';
+import OffersList from "../components/offersList.tsx";
 
 type MainPageProps = {
-  places: Place[];
+  offers: Offer[];
 }
 
-function MainPage({places}: MainPageProps): react.JSX.Element {
+function MainPage({offers}: MainPageProps): react.JSX.Element {
   return (
     <div className="page">
       <Helmet>
@@ -101,11 +101,7 @@ function MainPage({places}: MainPageProps): react.JSX.Element {
                     <li className="places__option" tabIndex={0}>Top rated first</li>
                   </ul>
                 </form>
-                <div className="cities__places-list places__list tabs__content">
-                  {places.map((place) => (
-                    <PlaceCard key={place.id} {...place} />
-                  ))}
-                </div>
+                <OffersList offers={offers} />
               </section>
               <div className="cities__right-section">
                 <section className="cities__map map"></section>

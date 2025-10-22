@@ -1,6 +1,6 @@
-import {Place, PlaceType} from '../types/place.ts';
+import {Cities, Offer, PlaceType} from "../types/offer.ts";
 
-export const placesData: Place[] = [
+export const offerData: Offer[] = [
   {
     id: 0,
     placeImageSrc: '../../markup/img/apartment-01.jpg',
@@ -10,6 +10,7 @@ export const placesData: Place[] = [
     isBookmarked: false,
     placeName: 'Beautiful & luxurious apartment at great location',
     placeType: PlaceType.Apartment,
+    city: Cities.Amsterdam,
   },
   {
     id: 1,
@@ -20,6 +21,7 @@ export const placesData: Place[] = [
     isBookmarked: true,
     placeName: 'Wood and stone place',
     placeType: PlaceType.Room,
+    city: Cities.Amsterdam,
   },
   {
     id: 2,
@@ -30,6 +32,7 @@ export const placesData: Place[] = [
     isBookmarked: false,
     placeName: 'Canal View Prinsengracht',
     placeType: PlaceType.Apartment,
+    city: Cities.Amsterdam,
   },
   {
     id: 3,
@@ -40,6 +43,7 @@ export const placesData: Place[] = [
     isBookmarked: false,
     placeName: 'Nice, cozy, warm big bed apartment',
     placeType: PlaceType.Apartment,
+    city: Cities.Amsterdam,
   },
   {
     id: 4,
@@ -50,5 +54,19 @@ export const placesData: Place[] = [
     isBookmarked: true,
     placeName: 'Wood and stone place',
     placeType: PlaceType.Room,
+    city: Cities.Amsterdam,
+  },
+  {
+    id: 5,
+    placeImageSrc: '../../markup/img/apartment-small-04.jpg',
+    isPremium: false,
+    price: 180,
+    starsCount: 5,
+    isBookmarked: true,
+    placeName: 'White castle',
+    placeType: PlaceType.Apartment,
+    city: Cities.Cologne,
   },
 ];
+
+export const favouritesOfferData: Offer[] = offerData.filter(offer => offer.isBookmarked);
