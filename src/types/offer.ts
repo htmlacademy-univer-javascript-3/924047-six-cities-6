@@ -1,3 +1,5 @@
+import { Coordinates } from './coordinates';
+
 export enum PlaceType {
   Room = 'Room',
   Apartment = 'Apartment',
@@ -22,4 +24,5 @@ export type Offer = {
   placeName: string;
   placeType: PlaceType;
   city: Cities;
+  coordinates: Coordinates;
 }

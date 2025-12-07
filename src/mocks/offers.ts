@@ -11,6 +11,7 @@ export const offerData: Offer[] = [
     placeName: 'Beautiful & luxurious apartment at great location',
     placeType: PlaceType.Apartment,
     city: Cities.Amsterdam,
+    coordinates: {latitude: 52.3909553943508, longitude: 4.85309666406198},
   },
   {
     id: 1,
@@ -22,6 +23,7 @@ export const offerData: Offer[] = [
     placeName: 'Wood and stone place',
     placeType: PlaceType.Room,
     city: Cities.Amsterdam,
+    coordinates: {latitude: 52.3609553943508, longitude: 4.85309666406198},
   },
   {
     id: 2,
@@ -33,6 +35,7 @@ export const offerData: Offer[] = [
     placeName: 'Canal View Prinsengracht',
     placeType: PlaceType.Apartment,
     city: Cities.Amsterdam,
+    coordinates: {latitude: 52.3909553943508, longitude: 4.929309666406198},
   },
   {
     id: 3,
@@ -44,6 +47,7 @@ export const offerData: Offer[] = [
     placeName: 'Nice, cozy, warm big bed apartment',
     placeType: PlaceType.Apartment,
     city: Cities.Amsterdam,
+    coordinates: {latitude: 52.3809553943508, longitude: 4.939309666406198},
   },
   {
     id: 4,
@@ -55,6 +59,7 @@ export const offerData: Offer[] = [
     placeName: 'Wood and stone place',
     placeType: PlaceType.Room,
     city: Cities.Amsterdam,
+    coordinates: {latitude: 52.3609553943508, longitude: 4.85309666406198},
   },
   {
     id: 5,
@@ -66,6 +71,7 @@ export const offerData: Offer[] = [
     placeName: 'White castle',
     placeType: PlaceType.Apartment,
     city: Cities.Cologne,
+    coordinates: {latitude: 50.934682784561545, longitude: 6.955891266454924},
   },
 ];
 
