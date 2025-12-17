@@ -7,13 +7,13 @@ import FeedbackList from '../components/feedback/feedbackList.tsx';
 import {feedbacksMockData} from '../mocks/feedbacks.ts';
 import {MapPoint} from '../widgets/map/types.ts';
 import {offerMockData} from '../mocks/offers.ts';
-import {Cities} from '../types/offer.ts';
+import {Cities} from '../const/cities.ts';
 import MapWidget from '../widgets/map/map.tsx';
 import {defaultCityCoordinates} from '../mocks/coordinates.ts';
 import OffersList from '../components/offers/offersList.tsx';
 
 function OfferPage(): react.JSX.Element {
-  const nearPlaces = offerMockData.filter((offer) => offer.city === Cities.Amsterdam).slice(0, 3);
+  const nearPlaces = offerMockData.filter((offer) => offer.city.name === Cities.Amsterdam).slice(0, 3);
   const markers: MapPoint[] = nearPlaces.map((offer) => ({
     id: offer.id,
     coordinates: offer.coordinates,
