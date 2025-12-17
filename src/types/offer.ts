@@ -1,17 +1,9 @@
 import { Coordinates } from './coordinates';
+import {City} from './city';
 
 export enum PlaceType {
   Room = 'Room',
   Apartment = 'Apartment',
-}
-
-export enum Cities {
-  Amsterdam = 'Amsterdam',
-  Paris = 'Paris',
-  Cologne = 'Cologne',
-  Brussels = 'Brussels',
-  Hamburg = 'Hamburg',
-  Dusseldorf = 'Dusseldorf',
 }
 
 export type Offer = {
@@ -23,6 +15,6 @@ export type Offer = {
   isBookmarked: boolean;
   placeName: string;
   placeType: PlaceType;
-  city: Cities;
+  city: City;
   coordinates: Coordinates;
 }

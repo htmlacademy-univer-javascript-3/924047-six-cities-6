@@ -1,4 +1,5 @@
-import {Cities, Offer, PlaceType} from '../types/offer.ts';
+import {Offer, PlaceType} from '../types/offer.ts';
+import {citiesDataMock} from './cities.ts';
 
 export const offerMockData: Offer[] = [
   {
@@ -10,7 +11,7 @@ export const offerMockData: Offer[] = [
     isBookmarked: false,
     placeName: 'Beautiful & luxurious apartment at great location',
     placeType: PlaceType.Apartment,
-    city: Cities.Amsterdam,
+    city: citiesDataMock[0],
     coordinates: {latitude: 52.3909553943508, longitude: 4.85309666406198},
   },
   {
@@ -22,7 +23,7 @@ export const offerMockData: Offer[] = [
     isBookmarked: true,
     placeName: 'Wood and stone place',
     placeType: PlaceType.Room,
-    city: Cities.Amsterdam,
+    city: citiesDataMock[1],
     coordinates: {latitude: 52.3609553943508, longitude: 4.85309666406198},
   },
   {
@@ -34,7 +35,7 @@ export const offerMockData: Offer[] = [
     isBookmarked: false,
     placeName: 'Canal View Prinsengracht',
     placeType: PlaceType.Apartment,
-    city: Cities.Amsterdam,
+    city: citiesDataMock[2],
     coordinates: {latitude: 52.3909553943508, longitude: 4.929309666406198},
   },
   {
@@ -46,7 +47,7 @@ export const offerMockData: Offer[] = [
     isBookmarked: false,
     placeName: 'Nice, cozy, warm big bed apartment',
     placeType: PlaceType.Apartment,
-    city: Cities.Amsterdam,
+    city: citiesDataMock[3],
     coordinates: {latitude: 52.3809553943508, longitude: 4.939309666406198},
   },
   {
@@ -58,7 +59,7 @@ export const offerMockData: Offer[] = [
     isBookmarked: true,
     placeName: 'Wood and stone place',
     placeType: PlaceType.Room,
-    city: Cities.Amsterdam,
+    city: citiesDataMock[4],
     coordinates: {latitude: 52.3609553943508, longitude: 4.85309666406198},
   },
   {
@@ -70,7 +71,7 @@ export const offerMockData: Offer[] = [
     isBookmarked: true,
     placeName: 'White castle',
     placeType: PlaceType.Apartment,
-    city: Cities.Cologne,
+    city: citiesDataMock[5],
     coordinates: {latitude: 50.934682784561545, longitude: 6.955891266454924},
   },
 ];

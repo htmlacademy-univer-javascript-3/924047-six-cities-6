@@ -8,7 +8,7 @@ type FavouriteOffersListProps = {
 
 function FavouriteOffersList({offers}: FavouriteOffersListProps): react.JSX.Element {
   const offersByCity = offers.reduce<Record<string, Offer[]>>((groupedOffers, currentOffer) => {
-    const cityName = currentOffer.city;
+    const cityName = currentOffer.city.name;
 
     if (!groupedOffers[cityName]) {
       groupedOffers[cityName] = [];

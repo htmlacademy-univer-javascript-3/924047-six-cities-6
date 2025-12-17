@@ -1,18 +1,44 @@
-import react from 'react';
-import {Cities, Offer} from '../types/offer.ts';
+import react, {useEffect} from 'react';
+import {Offer} from '../types/offer.ts';
 import {Helmet} from 'react-helmet-async';
 import OffersList from '../components/offers/offersList.tsx';
 import MapWidget from '../widgets/map/map.tsx';
 import {MapPoint} from '../widgets/map/types.ts';
 import {defaultCityCoordinates} from '../mocks/coordinates.ts';
+import {useAppDispatch, useAppSelector} from '../store/typedHooks.ts';
+import {setCity, setOffers} from '../store/action.ts';
+import {citiesDataMock} from '../mocks/cities.ts';
+import {City} from '../types/city.ts';
+import {CityList} from '../components/cities/citiesList.tsx';
+import {Cities} from '../const/cities.ts';
 
 type MainPageProps = {
   offers: Offer[];
 }
 
 function MainPage({offers}: MainPageProps): react.JSX.Element {
-  offers = offers.filter((offer) => offer.city === Cities.Amsterdam);
-  const markers: MapPoint[] = offers.map((offer) => ({
+  const dispatch = useAppDispatch();
+  const activeCity = useAppSelector((state) => state.offers.city);
+  const activeOffers = useAppSelector((state) => state.offers.offers);
+
+  const setActiveCity = (city: City) => {
+    dispatch(setCity(city));
+
+    const cityName = city.name;
+    const newOffers = offers.filter((offer) => offer.city.name === cityName);
+    dispatch(setOffers(newOffers));
+  };
+
+  // temp to set default city
+  useEffect(() => {
+    const paris = citiesDataMock.find((city) => city.name === Cities.Paris);
+    if (paris) {
+      setActiveCity(paris);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const markers: MapPoint[] = activeOffers.map((offer) => ({
     id: offer.id,
     coordinates: offer.coordinates,
     popupNode: offer.placeName
@@ -57,45 +83,14 @@ function MainPage({offers}: MainPageProps): react.JSX.Element {
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
             <section className="locations container">
-              <ul className="locations__list tabs__list">
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Paris</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Cologne</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Brussels</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item tabs__item--active">
-                    <span>Amsterdam</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Hamburg</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Dusseldorf</span>
-                  </a>
-                </li>
-              </ul>
+              <CityList cities={citiesDataMock} activeCity={activeCity} onCityClick={setActiveCity}/>
             </section>
           </div>
           <div className="cities">
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">312 places to stay in Amsterdam</b>
+                <b className="places__found">{activeOffers.length} places to stay in {activeCity.name}</b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by</span>
                   <span className="places__sorting-type" tabIndex={0}>
@@ -111,7 +106,7 @@ function MainPage({offers}: MainPageProps): react.JSX.Element {
                     <li className="places__option" tabIndex={0}>Top rated first</li>
                   </ul>
                 </form>
-                <OffersList offers={offers} containerClassName="cities__places-list places__list tabs__content" />
+                <OffersList offers={activeOffers} containerClassName="cities__places-list places__list tabs__content" />
               </section>
               <div className="cities__right-section">
                 <MapWidget mapCenter={defaultCityCoordinates} markers={markers} mapContainerClassName="cities__map map"/>
