@@ -1,8 +1,8 @@
-import {FC} from 'react';
 import {MapContainer, Marker, Popup, TileLayer} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import {Coordinates} from '../../types/coordinates.ts';
 import {MapPoint} from './types.ts';
+import react from 'react';
 
 const ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
 const URL = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
@@ -10,22 +10,26 @@ const URL = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r
 type MapProps = {
   mapCenter: Coordinates;
   markers?: MapPoint[];
+  mapContainerClassName: string;
 };
 
-export const MapWidget: FC<MapProps> = ({mapCenter, markers = []}) => {
+function MapWidget(mapProps: MapProps): react.JSX.Element {
+  const {mapCenter, markers, mapContainerClassName} = mapProps;
   return (
     <MapContainer
       center={[mapCenter.latitude, mapCenter.longitude]}
       zoom={12}
-      scrollWheelZoom={true}
-      className="cities__map map"
+      scrollWheelZoom
+      className={mapContainerClassName}
     >
       <TileLayer attribution={ATTRIBUTION} url={URL}/>
-      {markers.map((marker) => (
+      {markers && markers.map((marker) => (
         <Marker key={marker.id} position={[marker.coordinates.latitude, marker.coordinates.longitude]}>
           {marker.popupNode && <Popup>{marker.popupNode}</Popup>}
         </Marker>
       ))}
     </MapContainer>
   );
-};
+}
+
+export default MapWidget;

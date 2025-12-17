@@ -1,8 +1,8 @@
 import react, {FormEventHandler, Fragment, useState} from 'react';
 
 function FeedbackForm(): react.JSX.Element {
-  const [starsCount, setStars] = useState(0);
-  const [reviewText, setReviewText] = useState('');
+  const [, setStars] = useState(0);
+  const [, setReviewText] = useState('');
 
   const handleStarsClick: FormEventHandler = (event) => {
     setStars(parseInt((event.target as HTMLInputElement).value, 10));
@@ -11,9 +11,6 @@ function FeedbackForm(): react.JSX.Element {
   const handleReviewText: FormEventHandler = (event) => {
     setReviewText((event.target as HTMLTextAreaElement).value);
   };
-  /* eslint-disable no-console */
-  console.log(starsCount, reviewText);
-  /* eslint-disable no-console */
   const starNames = [undefined, 'terribly', 'badly', 'not bad', 'good', 'perfect'] as const;
 
   return (
