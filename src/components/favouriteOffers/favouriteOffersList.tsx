@@ -1,5 +1,5 @@
 import react from 'react';
-import {Offer} from '../types/offer.ts';
+import {Offer} from '../../types/offer.ts';
 import FavouriteOfferCard from './favouriteOfferCard.tsx';
 
 type FavouriteOffersListProps = {

@@ -1,6 +1,6 @@
 import {Cities, Offer, PlaceType} from '../types/offer.ts';
 
-export const offerData: Offer[] = [
+export const offerMockData: Offer[] = [
   {
     id: 0,
     placeImageSrc: '../../markup/img/apartment-01.jpg',
@@ -75,4 +75,4 @@ export const offerData: Offer[] = [
   },
 ];
 
-export const favouritesOfferData: Offer[] = offerData.filter((offer) => offer.isBookmarked);
+export const favouritesOfferData: Offer[] = offerMockData.filter((offer) => offer.isBookmarked);

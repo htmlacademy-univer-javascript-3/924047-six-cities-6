@@ -1,18 +1,16 @@
 import react, {useState} from 'react';
 import OfferCard from './offerCard.tsx';
-import {Offer} from '../types/offer.ts';
+import {Offer} from '../../types/offer.ts';
 
 type OffersListProps = {
   offers: Offer[];
+  containerClassName: string;
 }
 
-function OffersList({offers}: OffersListProps): react.JSX.Element {
-  const [activeCardId, setActiveCardId] = useState<number | null>(null);
-  /* eslint-disable no-console */
-  console.log(activeCardId);
-  /* eslint-disable no-console */
+function OffersList({offers, containerClassName}: OffersListProps): react.JSX.Element {
+  const [, setActiveCardId] = useState<number | null>(null);
   return (
-    <div className="cities__places-list places__list tabs__content">
+    <div className={containerClassName}>
       {offers.map((offer) => (
         <OfferCard key={offer.id} offer={offer} onMouseEnter={() => {
           setActiveCardId(offer.id);

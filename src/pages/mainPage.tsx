@@ -1,16 +1,14 @@
 import react from 'react';
 import {Cities, Offer} from '../types/offer.ts';
 import {Helmet} from 'react-helmet-async';
-import OffersList from '../components/offersList.tsx';
+import OffersList from '../components/offers/offersList.tsx';
 import MapWidget from '../widgets/map/map.tsx';
 import {MapPoint} from '../widgets/map/types.ts';
-import {Coordinates} from '../types/coordinates.ts';
+import {defaultCityCoordinates} from '../mocks/coordinates.ts';
 
 type MainPageProps = {
   offers: Offer[];
 }
-
-const defaultCityCoordinates: Coordinates = {latitude: 52.372134977537875, longitude: 4.894739637504961};
 
 function MainPage({offers}: MainPageProps): react.JSX.Element {
   offers = offers.filter((offer) => offer.city === Cities.Amsterdam);
@@ -113,10 +111,10 @@ function MainPage({offers}: MainPageProps): react.JSX.Element {
                     <li className="places__option" tabIndex={0}>Top rated first</li>
                   </ul>
                 </form>
-                <OffersList offers={offers} />
+                <OffersList offers={offers} containerClassName="cities__places-list places__list tabs__content" />
               </section>
               <div className="cities__right-section">
-                <MapWidget mapCenter={defaultCityCoordinates} markers={markers}/>
+                <MapWidget mapCenter={defaultCityCoordinates} markers={markers} mapContainerClassName="cities__map map"/>
               </div>
             </div>
           </div>

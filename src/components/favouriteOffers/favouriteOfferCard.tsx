@@ -1,7 +1,7 @@
 import react from 'react';
-import {Offer} from '../types/offer.ts';
+import {Offer} from '../../types/offer.ts';
 import {Link} from 'react-router-dom';
-import {AppRoute} from '../const/routes.ts';
+import {AppRoute} from '../../const/routes.ts';
 
 type FavouriteOfferCardProps = {
   offer: Offer;

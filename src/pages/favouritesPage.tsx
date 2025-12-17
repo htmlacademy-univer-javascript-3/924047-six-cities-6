@@ -1,6 +1,6 @@
 import react from 'react';
 import {Helmet} from 'react-helmet-async';
-import FavouriteOffersList from '../components/favouriteOffersList.tsx';
+import FavouriteOffersList from '../components/favouriteOffers/favouriteOffersList.tsx';
 import {Offer} from '../types/offer.ts';
 import {AppRoute} from '../const/routes.ts';
 import {Link} from 'react-router-dom';
