@@ -1,10 +1,10 @@
 import react from 'react';
-import {Offer} from '../types/offer.ts';
+import {Cities, Offer} from '../types/offer.ts';
 import {Helmet} from 'react-helmet-async';
 import OffersList from '../components/offersList.tsx';
-import {MapWidget} from "../widgets/map/map.tsx";
-import {MapPoint} from "../widgets/map/types.ts";
-import {Coordinates} from "../types/coordinates.ts";
+import MapWidget from '../widgets/map/map.tsx';
+import {MapPoint} from '../widgets/map/types.ts';
+import {Coordinates} from '../types/coordinates.ts';
 
 type MainPageProps = {
   offers: Offer[];
@@ -13,7 +13,7 @@ type MainPageProps = {
 const defaultCityCoordinates: Coordinates = {latitude: 52.372134977537875, longitude: 4.894739637504961};
 
 function MainPage({offers}: MainPageProps): react.JSX.Element {
-  offers = offers.filter((offer) => offer.city === 'Amsterdam');
+  offers = offers.filter((offer) => offer.city === Cities.Amsterdam);
   const markers: MapPoint[] = offers.map((offer) => ({
     id: offer.id,
     coordinates: offer.coordinates,
