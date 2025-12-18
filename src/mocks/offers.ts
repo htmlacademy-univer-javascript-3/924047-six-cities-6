@@ -3,7 +3,7 @@ import {citiesDataMock} from './cities.ts';
 
 export const offerMockData: Offer[] = [
   {
-    id: 0,
+    id: 1,
     placeImageSrc: '../../markup/img/apartment-01.jpg',
     isPremium: true,
     price: 120,
@@ -15,7 +15,7 @@ export const offerMockData: Offer[] = [
     coordinates: {latitude: 52.3909553943508, longitude: 4.85309666406198},
   },
   {
-    id: 1,
+    id: 2,
     placeImageSrc: '../../markup/img/room.jpg',
     isPremium: false,
     price: 80,
@@ -27,7 +27,7 @@ export const offerMockData: Offer[] = [
     coordinates: {latitude: 52.3609553943508, longitude: 4.85309666406198},
   },
   {
-    id: 2,
+    id: 3,
     placeImageSrc: '../../markup/img/apartment-02.jpg',
     isPremium: false,
     price: 132,
@@ -39,7 +39,7 @@ export const offerMockData: Offer[] = [
     coordinates: {latitude: 52.3909553943508, longitude: 4.929309666406198},
   },
   {
-    id: 3,
+    id: 4,
     placeImageSrc: '../../markup/img/apartment-03.jpg',
     isPremium: true,
     price: 180,
@@ -51,7 +51,7 @@ export const offerMockData: Offer[] = [
     coordinates: {latitude: 52.3809553943508, longitude: 4.939309666406198},
   },
   {
-    id: 4,
+    id: 5,
     placeImageSrc: '../../markup/img/room.jpg',
     isPremium: false,
     price: 80,
@@ -63,7 +63,7 @@ export const offerMockData: Offer[] = [
     coordinates: {latitude: 52.3609553943508, longitude: 4.85309666406198},
   },
   {
-    id: 5,
+    id: 6,
     placeImageSrc: '../../markup/img/apartment-small-04.jpg',
     isPremium: false,
     price: 180,
@@ -71,7 +71,7 @@ export const offerMockData: Offer[] = [
     isBookmarked: true,
     placeName: 'White castle',
     placeType: PlaceType.Apartment,
-    city: citiesDataMock[5],
+    city: citiesDataMock[4],
     coordinates: {latitude: 50.934682784561545, longitude: 6.955891266454924},
   },
 ];
