@@ -1,4 +1,4 @@
-import react, {useEffect} from 'react';
+import react, {useEffect, useState} from 'react';
 import {Offer} from '../types/offer.ts';
 import {Helmet} from 'react-helmet-async';
 import OffersList from '../components/offers/offersList.tsx';
@@ -6,11 +6,15 @@ import MapWidget from '../widgets/map/map.tsx';
 import {MapPoint} from '../widgets/map/types.ts';
 import {defaultCityCoordinates} from '../mocks/coordinates.ts';
 import {useAppDispatch, useAppSelector} from '../store/typedHooks.ts';
-import {setCity, setOffers} from '../store/action.ts';
+import {setActiveOffer, setCity, setOffers} from '../store/action.ts';
 import {citiesDataMock} from '../mocks/cities.ts';
 import {City} from '../types/city.ts';
 import {CityList} from '../components/cities/citiesList.tsx';
 import {Cities} from '../const/cities.ts';
+import { Select } from '../components/select.tsx';
+import {SelectOption} from '../types/select.ts';
+import {sortOptions} from '../const/sortOptions.ts';
+import {getSortedOffers} from '../utils/offersSort.ts';
 
 type MainPageProps = {
   offers: Offer[];
@@ -20,6 +24,17 @@ function MainPage({offers}: MainPageProps): react.JSX.Element {
   const dispatch = useAppDispatch();
   const activeCity = useAppSelector((state) => state.offers.city);
   const activeOffers = useAppSelector((state) => state.offers.offers);
+  const activeOfferId = useAppSelector((state) => state.offers.activeOfferId);
+
+  const [sort, setSort] = useState<SelectOption['key']>(sortOptions[0].key);
+
+  function handleSortChange(sortOption: SelectOption['key']) {
+    setSort(sortOption);
+
+    const sortedOffers = getSortedOffers(activeOffers, sortOption);
+    dispatch(setOffers(sortedOffers));
+  }
+
 
   const setActiveCity = (city: City) => {
     dispatch(setCity(city));
@@ -27,6 +42,10 @@ function MainPage({offers}: MainPageProps): react.JSX.Element {
     const cityName = city.name;
     const newOffers = offers.filter((offer) => offer.city.name === cityName);
     dispatch(setOffers(newOffers));
+  };
+
+  const handleOfferHover = (offerId: Offer['id']) => {
+    dispatch(setActiveOffer(offerId));
   };
 
   // temp to set default city
@@ -91,25 +110,17 @@ function MainPage({offers}: MainPageProps): react.JSX.Element {
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
                 <b className="places__found">{activeOffers.length} places to stay in {activeCity.name}</b>
-                <form className="places__sorting" action="#" method="get">
-                  <span className="places__sorting-caption">Sort by</span>
-                  <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                    <svg className="places__sorting-arrow" width="7" height="4">
-                      <use xlinkHref="#icon-arrow-select"></use>
-                    </svg>
-                  </span>
-                  <ul className="places__options places__options--custom places__options--opened">
-                    <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                    <li className="places__option" tabIndex={0}>Price: low to high</li>
-                    <li className="places__option" tabIndex={0}>Price: high to low</li>
-                    <li className="places__option" tabIndex={0}>Top rated first</li>
-                  </ul>
-                </form>
-                <OffersList offers={activeOffers} containerClassName="cities__places-list places__list tabs__content" />
+                <Select
+                  options={sortOptions}
+                  activeOptionKey={sort}
+                  onSelect={(sortOption) => handleSortChange(sortOption)}
+                >
+                  Sort by
+                </Select>
+                <OffersList offers={activeOffers} onCardHover={handleOfferHover} containerClassName="cities__places-list places__list tabs__content" />
               </section>
               <div className="cities__right-section">
-                <MapWidget mapCenter={defaultCityCoordinates} markers={markers} mapContainerClassName="cities__map map"/>
+                <MapWidget mapCenter={defaultCityCoordinates} activeMarkers={activeOfferId ? [activeOfferId] : []} markers={markers} mapContainerClassName="cities__map map"/>
               </div>
             </div>
           </div>
