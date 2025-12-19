@@ -1,19 +1,37 @@
-import react from 'react';
+import react, {useEffect} from 'react';
 import {Helmet} from 'react-helmet-async';
-import FavouriteOffersList from '../components/favouriteOffers/favouriteOffersList.tsx';
-import {Offer} from '../types/offer.ts';
+import FavoriteOffersList from '../components/favoriteOffers/favoriteOffersList.tsx';
 import {AppRoute} from '../const/routes.ts';
 import {Link} from 'react-router-dom';
+import {useAppDispatch, useAppSelector} from '../store/typedHooks.ts';
+import {OffersByCity} from '../types/offer.ts';
+import {loadOffers} from '../store/reducer.ts';
 
-type FavouriteOffersProps = {
-  favouriteOffers: Offer[];
-}
+function FavoritesPage(): react.JSX.Element {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(loadOffers());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-function FavouritesPage({ favouriteOffers }: FavouriteOffersProps): react.JSX.Element {
+  const offers = useAppSelector((state) => state.offers.offers);
+
+  const favoriteOffers = Object.entries(offers).reduce<OffersByCity>(
+    (acc, [city, cityOffers]) => {
+      const favorites = cityOffers.filter((o) => o.isFavorite);
+      if (favorites.length > 0) {
+        acc[city] = favorites;
+      }
+      return acc;
+    },
+    {}
+  );
+  const favoritesCounter = Object.values(favoriteOffers).flat().length;
+
   return (
     <div className="page">
       <Helmet>
-        <title> 6 cities - favourites </title>
+        <title> 6 cities - favorites </title>
       </Helmet>
       <header className="header">
         <div className="container">
@@ -30,7 +48,7 @@ function FavouritesPage({ favouriteOffers }: FavouriteOffersProps): react.JSX.El
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
+                    <span className="header__favorite-count">{favoritesCounter}</span>
                   </a>
                 </li>
                 <li className="header__nav-item">
@@ -49,7 +67,7 @@ function FavouritesPage({ favouriteOffers }: FavouriteOffersProps): react.JSX.El
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              <FavouriteOffersList offers={favouriteOffers}/>
+              <FavoriteOffersList offers={favoriteOffers}/>
             </ul>
           </section>
         </div>
@@ -63,4 +81,4 @@ function FavouritesPage({ favouriteOffers }: FavouriteOffersProps): react.JSX.El
   );
 }
 
-export default FavouritesPage;
+export default FavoritesPage;

@@ -18,8 +18,8 @@ function OfferCard({offer, onMouseEnter}: OfferCardProps): react.JSX.Element {
         </div>
       }
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={AppRoute.Offer.replace(':id', String(offer.id))}>
-          <img className="place-card__image" src={offer.placeImageSrc} width="260" height="200"
+        <Link to={AppRoute.Offer.replace(':id', offer.id)}>
+          <img className="place-card__image" src={offer.previewImage} width="260" height="200"
             alt="Offer image"
           />
         </Link>
@@ -30,7 +30,7 @@ function OfferCard({offer, onMouseEnter}: OfferCardProps): react.JSX.Element {
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={offer.isBookmarked ? 'place-card__bookmark-button place-card__bookmark-button--active button' : 'place-card__bookmark-button button'} type="button">
+          <button className={offer.isFavorite ? 'place-card__bookmark-button place-card__bookmark-button--active button' : 'place-card__bookmark-button button'} type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -39,14 +39,14 @@ function OfferCard({offer, onMouseEnter}: OfferCardProps): react.JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${offer.starsCount * 20}%`}}></span>
+            <span style={{width: `${offer.rating * 20}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={AppRoute.Offer.replace(':id', String(offer.id))}>{offer.placeName}</Link>
+          <Link to={AppRoute.Offer.replace(':id', offer.id)}>{offer.title}</Link>
         </h2>
-        <p className="place-card__type">{offer.placeType}</p>
+        <p className="place-card__type">{offer.type}</p>
       </div>
     </article>
   );

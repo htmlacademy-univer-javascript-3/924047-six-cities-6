@@ -1,8 +1,8 @@
 import {Key, ReactNode} from 'react';
-import {Coordinates} from '../../types/coordinates.ts';
+import {Location} from '../../types/location.ts';
 
 export type MapPoint = {
   id: Key;
-  coordinates: Coordinates;
+  coordinates: Location;
   popupNode?: ReactNode;
 };

@@ -1,6 +1,8 @@
-import {Cities} from '../const/cities.ts';
+import {Location} from './location.ts';
 
 export type City = {
-  id: number;
-  name: Cities;
+  name: string;
+  location: Location;
 };
+
+export type CitiesMap = Record<City['name'], City>;
