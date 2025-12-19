@@ -1,66 +1,27 @@
-import react, {useEffect, useState} from 'react';
-import {Offer} from '../types/offer.ts';
+import react, {useEffect} from 'react';
 import {Helmet} from 'react-helmet-async';
-import OffersList from '../components/offers/offersList.tsx';
-import MapWidget from '../widgets/map/map.tsx';
-import {MapPoint} from '../widgets/map/types.ts';
-import {defaultCityLocation} from '../mocks/location.ts';
 import {useAppDispatch, useAppSelector} from '../store/typedHooks.ts';
-import {setActiveOffer, setCity, setOffers} from '../store/action.ts';
-import {cities} from '../mocks/cities.ts';
+import {setCity} from '../store/action.ts';
 import {City} from '../types/city.ts';
 import {CityList} from '../components/cities/citiesList.tsx';
-import { Select } from '../components/select.tsx';
-import {SelectOption} from '../types/select.ts';
-import {sortOptions} from '../const/sortOptions.ts';
-import {getSortedOffers} from '../utils/offersSort.ts';
+import {loadOffers} from '../store/reducer.ts';
+import {Spinner} from '../components/spinner.tsx';
+import {OffersContainer} from '../components/offers-container.tsx';
 
-type MainPageProps = {
-  offers: Offer[];
-}
-
-function MainPage({offers}: MainPageProps): react.JSX.Element {
+function MainPage(): react.JSX.Element {
   const dispatch = useAppDispatch();
-  const activeCity = useAppSelector((state) => state.offers.city);
-  const activeOffers = useAppSelector((state) => state.offers.offers);
-  const activeOfferId = useAppSelector((state) => state.offers.activeOfferId);
-
-  const [sort, setSort] = useState<SelectOption['key']>(sortOptions[0].key);
-
-  function handleSortChange(sortOption: SelectOption['key']) {
-    setSort(sortOption);
-
-    const sortedOffers = getSortedOffers(activeOffers, sortOption);
-    dispatch(setOffers(sortedOffers));
-  }
-
+  const cities = useAppSelector((state) => state.offers.cities);
+  const isLoading = useAppSelector((state) => state.offers.isOffersLoading);
+  const currentCity = useAppSelector((state) => state.offers.currentCity);
 
   const setActiveCity = (city: City) => {
     dispatch(setCity(city));
-
-    const cityName = city.name;
-    const newOffers = offers.filter((offer) => offer.city.name === cityName);
-    dispatch(setOffers(newOffers));
   };
 
-  const handleOfferHover = (offerId: Offer['id']) => {
-    dispatch(setActiveOffer(offerId));
-  };
-
-  // temp to set default city
   useEffect(() => {
-    const paris = cities.find((city) => city.name === 'Paris');
-    if (paris) {
-      setActiveCity(paris);
-    }
+    dispatch(loadOffers());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const markers: MapPoint[] = activeOffers.map((offer) => ({
-    id: offer.id,
-    coordinates: offer.location,
-    popupNode: offer.title
-  }));
 
   return (
     <div className="page">
@@ -101,27 +62,11 @@ function MainPage({offers}: MainPageProps): react.JSX.Element {
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
             <section className="locations container">
-              <CityList cities={cities} activeCity={activeCity} onCityClick={setActiveCity}/>
+              <CityList cities={cities} activeCity={currentCity} onCityClick={setActiveCity}/>
             </section>
           </div>
           <div className="cities">
-            <div className="cities__places-container container">
-              <section className="cities__places places">
-                <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{activeOffers.length} places to stay in {activeCity.name}</b>
-                <Select
-                  options={sortOptions}
-                  activeOptionKey={sort}
-                  onSelect={(sortOption) => handleSortChange(sortOption)}
-                >
-                  Sort by
-                </Select>
-                <OffersList offers={activeOffers} onCardHover={handleOfferHover} containerClassName="cities__places-list places__list tabs__content" />
-              </section>
-              <div className="cities__right-section">
-                <MapWidget mapCenter={defaultCityLocation} activeMarkers={activeOfferId ? [activeOfferId] : []} markers={markers} mapContainerClassName="cities__map map"/>
-              </div>
-            </div>
+            {isLoading ? <Spinner/> : <OffersContainer />}
           </div>
         </main>
       </div>

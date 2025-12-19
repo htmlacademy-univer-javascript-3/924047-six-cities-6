@@ -19,4 +19,4 @@ export type Offer = {
   previewImage: string;
 }
 
-export type OffersByCity = Record<string, Offer[]>;
+export type OffersByCity = Record<Offer['city']['name'], Offer[]>;

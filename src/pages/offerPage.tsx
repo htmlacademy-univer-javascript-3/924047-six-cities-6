@@ -6,13 +6,14 @@ import FeedbackForm from '../components/feedback/feedbackForm.tsx';
 import FeedbackList from '../components/feedback/feedbackList.tsx';
 import {feedbacksMockData} from '../mocks/feedbacks.ts';
 import {MapPoint} from '../widgets/map/types.ts';
-import {offerMockData} from '../mocks/offers.ts';
 import MapWidget from '../widgets/map/map.tsx';
-import {defaultCityLocation} from '../mocks/location.ts';
 import OffersList from '../components/offers/offersList.tsx';
+import {useAppSelector} from '../store/typedHooks.ts';
 
 function OfferPage(): react.JSX.Element {
-  const nearPlaces = offerMockData.filter((offer) => offer.city.name === 'Amsterdam').slice(0, 3);
+  const currentCity = useAppSelector((state) => state.offers.currentCity);
+  const offers = useAppSelector((state) => state.offers.currentCityOffers);
+  const nearPlaces = offers.slice(0, 3);
   const markers: MapPoint[] = nearPlaces.map((offer) => ({
     id: offer.id,
     coordinates: offer.location,
@@ -182,7 +183,7 @@ function OfferPage(): react.JSX.Element {
               </section>
             </div>
           </div>
-          <MapWidget mapCenter={defaultCityLocation} markers={markers} mapContainerClassName="offer__map map"/>
+          <MapWidget mapCenter={currentCity.location} markers={markers} mapContainerClassName="offer__map map"/>
         </section>
         <div className="container">
           <section className="near-places places">

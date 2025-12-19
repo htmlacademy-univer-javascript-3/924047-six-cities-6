@@ -5,7 +5,7 @@ export const extractCities = (offers: Offer[]): CitiesMap => {
   const cities: CitiesMap = {};
   offers.forEach((offer) => {
     if (!Object.hasOwn(cities, offer.city.name)) {
-      cities[offer.city.name] = {...offer.city};
+      cities[offer.city.name] = offer.city;
     }
   });
   return cities;

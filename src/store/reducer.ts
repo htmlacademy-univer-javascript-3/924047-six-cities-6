@@ -1,85 +1,84 @@
 import {CitiesMap, City} from '../types/city.ts';
 import {Offer, OffersByCity} from '../types/offer.ts';
-import {cities} from '../mocks/cities.ts';
 import {createAsyncThunk, createReducer} from '@reduxjs/toolkit';
 import {setActiveOffer, setCity, setOffers} from './action.ts';
-import {axiosConfig, offersUrl} from '../const/api.ts';
+import {offersUrl} from '../const/api.ts';
 import {extractCities, groupOffersByCity} from '../utils/citiesUtils.ts';
-import axios, {AxiosError} from 'axios';
+import {defaultCity} from '../const/cities.ts';
+import {ThunkExtraArguments} from './index.ts';
 
 export enum ReducerName {
   offers = 'offers'
 }
 
 export type OffersState = {
-  city: City;
+  currentCity: City;
   cities: CitiesMap;
-  offers: Offer[];
+  offers: OffersByCity;
+  currentCityOffers: Offer[];
   activeOfferId: Offer['id'] | null;
-  isLoading: boolean;
+  isOffersLoading: boolean;
   error: string | null;
 };
 
 export const initialState: OffersState = {
-  city: cities[0],
+  currentCity: defaultCity,
   cities: {},
-  offers: [],
+  offers: {},
+  currentCityOffers: [],
   activeOfferId: null,
-  isLoading: false,
+  isOffersLoading: true,
   error: null,
 };
 
-type LoadOffersResponse = {
-  cities: CitiesMap;
-  offers: OffersByCity;
-};
-
 export const loadOffers = createAsyncThunk<
-    LoadOffersResponse,
+    Offer[],
     void,
-    { rejectValue: string }>(
-      'offers/loadOffers',
-      async (_, { rejectWithValue }) => {
-        try {
-          const response = await axios.get<Offer[]>(
-            offersUrl.offers,
-            axiosConfig
-          );
+    {
+      extra: ThunkExtraArguments;
+      rejectValue: string;
+    }
+>(
+  'offers/loadOffers',
+  async (_, { extra, rejectWithValue }) => {
+    try {
+      const { data } = await extra.axios.get<Offer[]>(
+        offersUrl.offers
+      );
 
-          return {
-            cities: extractCities(response.data),
-            offers: groupOffersByCity(response.data),
-          };
-        } catch (error) {
-          const err = error as AxiosError;
-          // eslint-disable-next-line no-console
-          console.error('Error loading offers', err.message);
-          return rejectWithValue('Failed to load offers');
-        }
-      }
-    );
+      return data;
+    } catch {
+      return rejectWithValue('Failed to load offers');
+    }
+  }
+);
+
 
 export const offersReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(setCity, (state, action) => {
-      state.city = action.payload;
-    })
-    .addCase(setOffers, (state, action) => {
-      state.offers = action.payload;
+      const city = action.payload;
+      state.currentCity = city;
+      state.currentCityOffers = state.offers[city.name];
     })
     .addCase(setActiveOffer, (state, action) => {
       state.activeOfferId = action.payload;
     })
+    .addCase(setOffers, (state, action) => {
+      state.currentCityOffers = action.payload;
+    })
     .addCase(loadOffers.pending, (state) => {
-      state.isLoading = true;
+      state.isOffersLoading = true;
     })
     .addCase(loadOffers.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.cities = action.payload.cities;
-      // state.offers = action.payload.offers;
+      state.isOffersLoading = false;
+      const offers = groupOffersByCity(action.payload);
+      state.cities = extractCities(action.payload);
+      state.offers = offers;
+      state.currentCityOffers = offers[state.currentCity.name];
     })
     .addCase(loadOffers.rejected, (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload ?? 'Failed to load offers';
+      state.isOffersLoading = false;
+      state.error = action.error.message ?? 'Failed to load offers';
     });
 });

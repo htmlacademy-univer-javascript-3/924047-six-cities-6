@@ -1,15 +1,33 @@
-import react from 'react';
+import react, {useEffect} from 'react';
 import {Helmet} from 'react-helmet-async';
 import FavoriteOffersList from '../components/favoriteOffers/favoriteOffersList.tsx';
-import {Offer} from '../types/offer.ts';
 import {AppRoute} from '../const/routes.ts';
 import {Link} from 'react-router-dom';
+import {useAppDispatch, useAppSelector} from '../store/typedHooks.ts';
+import {OffersByCity} from '../types/offer.ts';
+import {loadOffers} from '../store/reducer.ts';
 
-type FavoriteOffersProps = {
-  favoriteOffers: Offer[];
-}
+function FavoritesPage(): react.JSX.Element {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(loadOffers());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-function FavoritesPage({ favoriteOffers }: FavoriteOffersProps): react.JSX.Element {
+  const offers = useAppSelector((state) => state.offers.offers);
+
+  const favoriteOffers = Object.entries(offers).reduce<OffersByCity>(
+    (acc, [city, cityOffers]) => {
+      const favorites = cityOffers.filter((o) => o.isFavorite);
+      if (favorites.length > 0) {
+        acc[city] = favorites;
+      }
+      return acc;
+    },
+    {}
+  );
+  const favoritesCounter = Object.values(favoriteOffers).flat().length;
+
   return (
     <div className="page">
       <Helmet>
@@ -30,7 +48,7 @@ function FavoritesPage({ favoriteOffers }: FavoriteOffersProps): react.JSX.Eleme
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
+                    <span className="header__favorite-count">{favoritesCounter}</span>
                   </a>
                 </li>
                 <li className="header__nav-item">
