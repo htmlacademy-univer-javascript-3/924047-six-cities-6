@@ -4,13 +4,12 @@ import {Helmet} from 'react-helmet-async';
 import OffersList from '../components/offers/offersList.tsx';
 import MapWidget from '../widgets/map/map.tsx';
 import {MapPoint} from '../widgets/map/types.ts';
-import {defaultCityCoordinates} from '../mocks/coordinates.ts';
+import {defaultCityLocation} from '../mocks/location.ts';
 import {useAppDispatch, useAppSelector} from '../store/typedHooks.ts';
 import {setActiveOffer, setCity, setOffers} from '../store/action.ts';
-import {citiesDataMock} from '../mocks/cities.ts';
+import {cities} from '../mocks/cities.ts';
 import {City} from '../types/city.ts';
 import {CityList} from '../components/cities/citiesList.tsx';
-import {Cities} from '../const/cities.ts';
 import { Select } from '../components/select.tsx';
 import {SelectOption} from '../types/select.ts';
 import {sortOptions} from '../const/sortOptions.ts';
@@ -50,7 +49,7 @@ function MainPage({offers}: MainPageProps): react.JSX.Element {
 
   // temp to set default city
   useEffect(() => {
-    const paris = citiesDataMock.find((city) => city.name === Cities.Paris);
+    const paris = cities.find((city) => city.name === 'Paris');
     if (paris) {
       setActiveCity(paris);
     }
@@ -59,8 +58,8 @@ function MainPage({offers}: MainPageProps): react.JSX.Element {
 
   const markers: MapPoint[] = activeOffers.map((offer) => ({
     id: offer.id,
-    coordinates: offer.coordinates,
-    popupNode: offer.placeName
+    coordinates: offer.location,
+    popupNode: offer.title
   }));
 
   return (
@@ -102,7 +101,7 @@ function MainPage({offers}: MainPageProps): react.JSX.Element {
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
             <section className="locations container">
-              <CityList cities={citiesDataMock} activeCity={activeCity} onCityClick={setActiveCity}/>
+              <CityList cities={cities} activeCity={activeCity} onCityClick={setActiveCity}/>
             </section>
           </div>
           <div className="cities">
@@ -120,7 +119,7 @@ function MainPage({offers}: MainPageProps): react.JSX.Element {
                 <OffersList offers={activeOffers} onCardHover={handleOfferHover} containerClassName="cities__places-list places__list tabs__content" />
               </section>
               <div className="cities__right-section">
-                <MapWidget mapCenter={defaultCityCoordinates} activeMarkers={activeOfferId ? [activeOfferId] : []} markers={markers} mapContainerClassName="cities__map map"/>
+                <MapWidget mapCenter={defaultCityLocation} activeMarkers={activeOfferId ? [activeOfferId] : []} markers={markers} mapContainerClassName="cities__map map"/>
               </div>
             </div>
           </div>

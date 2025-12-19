@@ -1,20 +1,22 @@
-import { Coordinates } from './coordinates';
+import { Location } from './location.ts';
 import {City} from './city';
 
 export enum PlaceType {
-  Room = 'Room',
-  Apartment = 'Apartment',
+  Room = 'room',
+  Apartment = 'apartment',
 }
 
 export type Offer = {
-  id: number;
-  placeImageSrc: string;
-  isPremium: boolean;
+  id: string;
+  title: string;
+  type: PlaceType;
   price: number;
-  starsCount: 1 | 2 | 3 | 4 | 5;
-  isBookmarked: boolean;
-  placeName: string;
-  placeType: PlaceType;
   city: City;
-  coordinates: Coordinates;
+  location: Location;
+  isFavorite: boolean;
+  isPremium: boolean;
+  rating: 1 | 2 | 3 | 4 | 5;
+  previewImage: string;
 }
+
+export type OffersByCity = Record<string, Offer[]>;

@@ -3,11 +3,11 @@ import {Offer} from '../../types/offer.ts';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const/routes.ts';
 
-type FavouriteOfferCardProps = {
+type FavoriteOfferCardProps = {
   offer: Offer;
 }
 
-function FavouriteOfferCard({offer}: FavouriteOfferCardProps): react.JSX.Element {
+function FavoriteOfferCard({offer}: FavoriteOfferCardProps): react.JSX.Element {
   return (
     <article className="favorites__card place-card">
       {
@@ -17,8 +17,8 @@ function FavouriteOfferCard({offer}: FavouriteOfferCardProps): react.JSX.Element
         </div>
       }
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <Link to={AppRoute.Offer.replace(':id', String(offer.id))}>
-          <img className="place-card__image" src={offer.placeImageSrc} width="150" height="110"
+        <Link to={AppRoute.Offer.replace(':id', offer.id)}>
+          <img className="place-card__image" src={offer.previewImage} width="150" height="110"
             alt="Offer image"
           />
         </Link>
@@ -40,17 +40,17 @@ function FavouriteOfferCard({offer}: FavouriteOfferCardProps): react.JSX.Element
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${offer.starsCount * 20}%`}}></span>
+            <span style={{width: `${offer.rating * 20}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={AppRoute.Offer.replace(':id', String(offer.id))}>{offer.placeName}</Link>
+          <Link to={AppRoute.Offer.replace(':id', offer.id)}>{offer.title}</Link>
         </h2>
-        <p className="place-card__type">{offer.placeType}</p>
+        <p className="place-card__type">{offer.type}</p>
       </div>
     </article>
   );
 }
 
-export default FavouriteOfferCard;
+export default FavoriteOfferCard;

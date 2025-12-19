@@ -14,7 +14,7 @@ export const CityList: FC<CityListProps> = ({cities, activeCity, onCityClick}) =
     <ul className="locations__list tabs__list">
       {cities.map((city) => (
         <City
-          key={city.id}
+          key={city.name}
           city={city}
           href={'/#'}
           onCityClick={onCityClick}

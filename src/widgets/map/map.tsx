@@ -1,6 +1,6 @@
 import {MapContainer, Marker, Popup, TileLayer} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import {Coordinates} from '../../types/coordinates.ts';
+import {Location} from '../../types/location.ts';
 import {MapPoint} from './types.ts';
 import react from 'react';
 import {activeMarker, defaultMarker} from './markers.ts';
@@ -9,7 +9,7 @@ const ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">Op
 const URL = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 
 type MapProps = {
-  mapCenter: Coordinates;
+  mapCenter: Location;
   markers?: MapPoint[];
   mapContainerClassName: string;
   activeMarkers?: MapPoint['id'][];

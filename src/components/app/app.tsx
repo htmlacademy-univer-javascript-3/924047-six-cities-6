@@ -5,16 +5,16 @@ import {Offer} from '../../types/offer.ts';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const/routes.ts';
 import LoginPage from '../../pages/loginPage.tsx';
-import FavouritesPage from '../../pages/favouritesPage.tsx';
+import FavoritesPage from '../../pages/favoritesPage.tsx';
 import OfferPage from '../../pages/offerPage.tsx';
 import AuthorizedRoute from '../authorizedRoute.tsx';
 import { HelmetProvider } from 'react-helmet-async';
 type AppProps = {
   offers: Offer[];
-  favouriteOffers: Offer[];
+  favoriteOffers: Offer[];
 };
 
-function App({offers, favouriteOffers}: AppProps): react.JSX.Element {
+function App({offers, favoriteOffers}: AppProps): react.JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -28,8 +28,8 @@ function App({offers, favouriteOffers}: AppProps): react.JSX.Element {
             element={<LoginPage />}
           />
           <Route
-            path={AppRoute.Favourites}
-            element={<FavouritesPage favouriteOffers={favouriteOffers} />}
+            path={AppRoute.Favorites}
+            element={<FavoritesPage favoriteOffers={favoriteOffers} />}
           />
           <Route
             path={AppRoute.Offer}

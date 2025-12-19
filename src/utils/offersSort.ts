@@ -12,7 +12,7 @@ export function getSortedOffers(offers: Offer[], sortOption: SelectOption['key']
       return sorted.sort((a, b) => b.price - a.price);
 
     case 'topRated':
-      return sorted.sort((a, b) => b.starsCount - a.starsCount);
+      return sorted.sort((a, b) => b.rating - a.rating);
     default:
       return sorted;
   }

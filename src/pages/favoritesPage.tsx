@@ -1,19 +1,19 @@
 import react from 'react';
 import {Helmet} from 'react-helmet-async';
-import FavouriteOffersList from '../components/favouriteOffers/favouriteOffersList.tsx';
+import FavoriteOffersList from '../components/favoriteOffers/favoriteOffersList.tsx';
 import {Offer} from '../types/offer.ts';
 import {AppRoute} from '../const/routes.ts';
 import {Link} from 'react-router-dom';
 
-type FavouriteOffersProps = {
-  favouriteOffers: Offer[];
+type FavoriteOffersProps = {
+  favoriteOffers: Offer[];
 }
 
-function FavouritesPage({ favouriteOffers }: FavouriteOffersProps): react.JSX.Element {
+function FavoritesPage({ favoriteOffers }: FavoriteOffersProps): react.JSX.Element {
   return (
     <div className="page">
       <Helmet>
-        <title> 6 cities - favourites </title>
+        <title> 6 cities - favorites </title>
       </Helmet>
       <header className="header">
         <div className="container">
@@ -49,7 +49,7 @@ function FavouritesPage({ favouriteOffers }: FavouriteOffersProps): react.JSX.El
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              <FavouriteOffersList offers={favouriteOffers}/>
+              <FavoriteOffersList offers={favoriteOffers}/>
             </ul>
           </section>
         </div>
@@ -63,4 +63,4 @@ function FavouritesPage({ favouriteOffers }: FavouriteOffersProps): react.JSX.El
   );
 }
 
-export default FavouritesPage;
+export default FavoritesPage;

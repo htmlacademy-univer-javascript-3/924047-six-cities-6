@@ -1,12 +1,12 @@
 import react from 'react';
 import {Offer} from '../../types/offer.ts';
-import FavouriteOfferCard from './favouriteOfferCard.tsx';
+import FavoriteOfferCard from './favoriteOfferCard.tsx';
 
-type FavouriteOffersListProps = {
+type FavoriteOffersListProps = {
   offers: Offer[];
 }
 
-function FavouriteOffersList({offers}: FavouriteOffersListProps): react.JSX.Element {
+function FavoriteOffersList({offers}: FavoriteOffersListProps): react.JSX.Element {
   const offersByCity = offers.reduce<Record<string, Offer[]>>((groupedOffers, currentOffer) => {
     const cityName = currentOffer.city.name;
 
@@ -30,7 +30,7 @@ function FavouriteOffersList({offers}: FavouriteOffersListProps): react.JSX.Elem
             </div>
           </div>
           <div className="favorites__places">
-            {cityOffers.map((offer) => (<FavouriteOfferCard key={offer.id} offer={offer} />))}
+            {cityOffers.map((offer) => (<FavoriteOfferCard key={offer.id} offer={offer} />))}
           </div>
         </li>
       ))}
@@ -38,4 +38,4 @@ function FavouriteOffersList({offers}: FavouriteOffersListProps): react.JSX.Elem
   );
 }
 
-export default FavouriteOffersList;
+export default FavoriteOffersList;
