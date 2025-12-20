@@ -1,15 +1,23 @@
-import react from 'react';
+import react, {useEffect} from 'react';
 import MainPage from '../../pages/mainPage.tsx';
 import NotFoundPage from '../../pages/notFoundPage.tsx';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const/routes.ts';
+import {AppRoute} from '../../const/routes.ts';
 import LoginPage from '../../pages/loginPage.tsx';
 import FavoritesPage from '../../pages/favoritesPage.tsx';
 import OfferPage from '../../pages/offerPage.tsx';
 import AuthorizedRoute from '../authorizedRoute.tsx';
 import { HelmetProvider } from 'react-helmet-async';
+import {checkAuth} from '../../store/api.ts';
+import {useAppDispatch} from '../../store/typedHooks.ts';
 
 function App(): react.JSX.Element {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
+
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -24,17 +32,15 @@ function App(): react.JSX.Element {
           />
           <Route
             path={AppRoute.Favorites}
-            element={<FavoritesPage />}
+            element={
+              <AuthorizedRoute>
+                <FavoritesPage />
+              </AuthorizedRoute>
+            }
           />
           <Route
             path={AppRoute.Offer}
-            element={
-              <AuthorizedRoute
-                authorizationStatus={AuthorizationStatus.Auth} // TODO back to NoAuth
-              >
-                <OfferPage/>
-              </AuthorizedRoute>
-            }
+            element={<OfferPage/>}
           />
           <Route
             path="*"

@@ -1,5 +1,10 @@
 export type User = {
-  id: number;
   name: string;
-  photoUrl: string;
+  avatarUrl: string;
+  isPro: boolean;
+};
+
+export type UserAuth = User & {
+  email: string;
+  token: string;
 };

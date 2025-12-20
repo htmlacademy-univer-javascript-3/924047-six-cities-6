@@ -3,14 +3,14 @@ import {User} from '../types/user.ts';
 
 export const usersMockData: User[] = [
   {
-    id: 1,
     name: 'Max',
-    photoUrl: 'img/avatar-max.jpg',
+    avatarUrl: 'img/avatar-max.jpg',
+    isPro: false,
   },
   {
-    id: 2,
     name: 'Angelina',
-    photoUrl: 'img/avatar-angelina.jpg',
+    avatarUrl: 'img/avatar-angelina.jpg',
+    isPro: true,
   },
 ];
 
