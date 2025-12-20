@@ -1,6 +1,6 @@
 import {Select} from './select.tsx';
 import {sortOptions} from '../const/sort-options.ts';
-import OffersList from './offers/offersList.tsx';
+import OffersList from './offers/offers-list.tsx';
 import MapWidget from '../widgets/map/map.tsx';
 import {MapPoint} from '../widgets/map/types.ts';
 import {Offer} from '../types/offer.ts';

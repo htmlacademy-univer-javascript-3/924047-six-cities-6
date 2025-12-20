@@ -32,6 +32,12 @@ export const createAPI = (): AxiosInstance => {
 
 export const offersUrl = {
   offers: '/offers',
+  offerDetails: (offerId: string) => `/offers/${offerId}`,
+  offersNearby: (offerId: string) => `/offers/${offerId}/nearby`,
+};
+
+export const commentsUrl = {
+  offerComments: (offerId: string) => `/comments/${offerId}`,
 };
 
 export const userUrl = {

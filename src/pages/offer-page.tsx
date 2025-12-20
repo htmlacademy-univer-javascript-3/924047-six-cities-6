@@ -1,23 +1,60 @@
-import react from 'react';
+import react, {useEffect} from 'react';
 import {Helmet} from 'react-helmet-async';
 import FeedbackForm from '../components/feedback/feedback-form.tsx';
 import FeedbackList from '../components/feedback/feedback-list.tsx';
-import {feedbacksMockData} from '../mocks/feedbacks.ts';
 import {MapPoint} from '../widgets/map/types.ts';
 import MapWidget from '../widgets/map/map.tsx';
-import OffersList from '../components/offers/offersList.tsx';
-import {useAppSelector} from '../store/typed-hooks.ts';
+import OffersList from '../components/offers/offers-list.tsx';
+import {useAppDispatch, useAppSelector} from '../store/typed-hooks.ts';
 import Header from '../components/header.tsx';
+import {AuthorizationStatus} from '../const/routes.ts';
+import {useParams} from 'react-router-dom';
+import {Spinner} from '../components/spinner.tsx';
+import NotFoundPage from './not-found-page.tsx';
+import {getOfferComments, getOfferDetails, getOffersNearby} from '../store/api.ts';
 
 function OfferPage(): react.JSX.Element {
+  const dispatch = useAppDispatch();
+  const { id } = useParams<{ id: string }>();
   const currentCity = useAppSelector((state) => state.offers.currentCity);
-  const offers = useAppSelector((state) => state.offers.currentCityOffers);
-  const nearPlaces = offers.slice(0, 3);
-  const markers: MapPoint[] = nearPlaces.map((offer) => ({
+  const authorizationStatus = useAppSelector((state) => state.user.authorizationStatus);
+  const { currentOffer, nearbyOffers, feedbacks, isOfferLoading } =
+    useAppSelector((state) => ({
+      currentOffer: state.offers.currentOffer,
+      nearbyOffers: state.offers.nearbyOffers,
+      feedbacks: state.offers.feedbacks,
+      isOfferLoading: state.offers.isOfferLoading,
+    }));
+  const markers: MapPoint[] = nearbyOffers.map((offer) => ({
     id: offer.id,
     coordinates: offer.location,
     popupNode: offer.title
   }));
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getOfferDetails(id));
+      dispatch(getOffersNearby(id));
+      dispatch(getOfferComments(id));
+    }
+  }, [dispatch, id]);
+
+  if (isOfferLoading) {
+    return (
+      <div className="page">
+        <Header />
+        <main className="page__main page__main--offer">
+          <Spinner />
+        </main>
+      </div>
+    );
+  }
+
+  if (!isOfferLoading && !currentOffer && id) {
+    return <NotFoundPage />;
+  }
+
+  const offer = currentOffer;
 
   return (
     <div className="page">
@@ -31,24 +68,15 @@ function OfferPage(): react.JSX.Element {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="../../markup/img/room.jpg" alt="Photo studio"/>
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="../../markup/img/apartment-01.jpg" alt="Photo studio"/>
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="../../markup/img/apartment-02.jpg" alt="Photo studio"/>
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="../../markup/img/apartment-03.jpg" alt="Photo studio"/>
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="../../markup/img/studio-01.jpg" alt="Photo studio"/>
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="../../markup/img/apartment-01.jpg" alt="Photo studio"/>
-              </div>
+              {offer.images.map((image, index) => (
+                <div key={image} className="offer__image-wrapper">
+                  <img
+                    className="offer__image"
+                    src={image}
+                    alt={`Photo ${index + 1}`}
+                  />
+                </div>
+              ))}
             </div>
           </div>
           <div className="offer__container container">
@@ -58,7 +86,7 @@ function OfferPage(): react.JSX.Element {
               </div>
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  Beautiful &amp; luxurious studio at great location
+                  {offer.title}
                 </h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width="31" height="33">
@@ -69,90 +97,62 @@ function OfferPage(): react.JSX.Element {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: '80%'}}></span>
+                  <span style={{width: `${offer.rating * 20}%`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="offer__rating-value rating__value">4.8</span>
+                <span className="offer__rating-value rating__value">{offer.rating.toFixed(1)}</span>
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
-                  Apartment
+                  {offer.type}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  3 Bedrooms
+                  {offer.bedrooms} Bedroom{offer.bedrooms !== 1 ? 's' : ''}
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max 4 adults
+                  Max {offer.maxAdults} adult{offer.maxAdults !== 1 ? 's' : ''}
                 </li>
               </ul>
               <div className="offer__price">
-                <b className="offer__price-value">&euro;120</b>
+                <b className="offer__price-value">&euro;{offer.price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
-                  <li className="offer__inside-item">
-                    Wi-Fi
-                  </li>
-                  <li className="offer__inside-item">
-                    Washing machine
-                  </li>
-                  <li className="offer__inside-item">
-                    Towels
-                  </li>
-                  <li className="offer__inside-item">
-                    Heating
-                  </li>
-                  <li className="offer__inside-item">
-                    Coffee machine
-                  </li>
-                  <li className="offer__inside-item">
-                    Baby seat
-                  </li>
-                  <li className="offer__inside-item">
-                    Kitchen
-                  </li>
-                  <li className="offer__inside-item">
-                    Dishwasher
-                  </li>
-                  <li className="offer__inside-item">
-                    Cabel TV
-                  </li>
-                  <li className="offer__inside-item">
-                    Fridge
-                  </li>
+                  {offer.goods.map((good) => (
+                    <li key={good} className="offer__inside-item">
+                      {good}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
-                  <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="offer__avatar user__avatar" src="../../markup/img/avatar-angelina.jpg" width="74" height="74"
+                  <div
+                    className={`offer__avatar-wrapper ${
+                      offer.host.isPro ? 'offer__avatar-wrapper--pro' : ''
+                    } user__avatar-wrapper`}
+                  >
+                    <img className="offer__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74"
                       alt="Host avatar"
                     />
                   </div>
                   <span className="offer__user-name">
-                    Angelina
+                    {offer.host.name}
                   </span>
-                  <span className="offer__user-status">
-                    Pro
-                  </span>
+                  {offer.host.isPro && (
+                    <span className="offer__user-status">Pro</span>
+                  )}
                 </div>
                 <div className="offer__description">
-                  <p className="offer__text">
-                    A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The
-                    building is green and from 18th century.
-                  </p>
-                  <p className="offer__text">
-                    An independent House, strategically located between Rembrand Square and National Opera, but where
-                    the bustle of the city comes to rest in this alley flowery and colorful.
-                  </p>
+                  <p className="offer__text">{offer.description}</p>
                 </div>
               </div>
               <section className="offer__reviews reviews">
-                <FeedbackList feedbackList={feedbacksMockData}/>
-                <FeedbackForm/>
+                <FeedbackList feedbackList={feedbacks}/>
+                {authorizationStatus === AuthorizationStatus.Auth && <FeedbackForm />}
               </section>
             </div>
           </div>
@@ -161,7 +161,7 @@ function OfferPage(): react.JSX.Element {
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OffersList offers={nearPlaces} containerClassName="near-places__list places__list" />
+            <OffersList offers={nearbyOffers} containerClassName="near-places__list places__list" />
           </section>
         </div>
       </main>

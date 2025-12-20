@@ -10,11 +10,12 @@ type Props = {
 
 function Header({ favoritesCount = 0 }: Props): React.JSX.Element {
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector(
-    (state) => state.user.authorizationStatus
+  const {authorizationStatus, user} = useAppSelector(
+    (state) => ({
+      authorizationStatus: state.user.authorizationStatus,
+      user: state.user.userAuth
+    })
   );
-  const user = useAppSelector((state) => state.user.userAuth);
-
   const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
   const userEmail = user?.email || 'user@example.com';
 

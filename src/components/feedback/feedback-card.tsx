@@ -7,7 +7,8 @@ type FeedbackCardProps = {
 }
 
 function FeedbackCard({feedback}: FeedbackCardProps): react.JSX.Element {
-  const {stars, text, date, user} = feedback;
+  const {rating, comment, date, user} = feedback;
+  const dateData = new Date(date);
 
   return (
     <li className="reviews__item">
@@ -22,13 +23,13 @@ function FeedbackCard({feedback}: FeedbackCardProps): react.JSX.Element {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{width: `${20 * stars}%`}}></span>
+            <span style={{width: `${20 * rating}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
-        <p className="reviews__text">{text}</p>
-        <time className="reviews__time" dateTime={date.toISOString().split('T')[0]}>
-          {date.toLocaleString('en', {month: 'long'})} {date.getFullYear()}
+        <p className="reviews__text">{comment}</p>
+        <time className="reviews__time" dateTime={dateData.toISOString().split('T')[0]}>
+          {dateData.toLocaleString('en', {month: 'long'})} {dateData.getFullYear()}
         </time>
       </div>
     </li>
