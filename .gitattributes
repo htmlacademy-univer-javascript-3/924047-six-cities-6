@@ -1,4 +1,4 @@
-* text eol=lf
+* comment eol=lf
 
 *.png binary
 *.jpg binary

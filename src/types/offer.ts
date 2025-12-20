@@ -1,5 +1,6 @@
 import { Location } from './location.ts';
 import {City} from './city';
+import {User} from './user.ts';
 
 export enum PlaceType {
   Room = 'room',
@@ -17,6 +18,15 @@ export type Offer = {
   isPremium: boolean;
   rating: 1 | 2 | 3 | 4 | 5;
   previewImage: string;
+}
+
+export type OfferDetails = Omit<Offer, 'previewImage'> & {
+  description: string;
+  bedrooms: number;
+  goods: string[];
+  host: User;
+  images: string[];
+  maxAdults: number;
 }
 
 export type OffersByCity = Record<Offer['city']['name'], Offer[]>;

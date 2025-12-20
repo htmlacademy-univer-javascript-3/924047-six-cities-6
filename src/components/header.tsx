@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import React from 'react';
 import {AppRoute, AuthorizationStatus} from '../const/routes.ts';
-import {useAppDispatch, useAppSelector} from '../store/typedHooks.ts';
+import {useAppDispatch, useAppSelector} from '../store/typed-hooks.ts';
 import {logout} from '../store/api.ts';
 
 type Props = {
@@ -10,11 +10,12 @@ type Props = {
 
 function Header({ favoritesCount = 0 }: Props): React.JSX.Element {
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector(
-    (state) => state.user.authorizationStatus
+  const {authorizationStatus, user} = useAppSelector(
+    (state) => ({
+      authorizationStatus: state.user.authorizationStatus,
+      user: state.user.userAuth
+    })
   );
-  const user = useAppSelector((state) => state.user.userAuth);
-
   const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
   const userEmail = user?.email || 'user@example.com';
 

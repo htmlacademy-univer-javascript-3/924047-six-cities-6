@@ -1,12 +1,22 @@
 import {CitiesMap, City} from '../types/city.ts';
-import {Offer, OffersByCity} from '../types/offer.ts';
+import {Offer, OfferDetails, OffersByCity} from '../types/offer.ts';
 import {createReducer} from '@reduxjs/toolkit';
 import {setActiveOffer, setCity, setOffers} from './action.ts';
-import {extractCities, groupOffersByCity} from '../utils/citiesUtils.ts';
+import {extractCities, groupOffersByCity} from '../utils/cities-utils.ts';
 import {defaultCity} from '../const/cities.ts';
 import {UserAuth} from '../types/user.ts';
 import {AuthorizationStatus} from '../const/routes.ts';
-import {checkAuth, loadOffers, login, logout} from './api.ts';
+import {
+  checkAuth,
+  getOfferComments,
+  getOfferDetails,
+  getOffersNearby,
+  loadOffers,
+  login,
+  logout,
+  submitOfferComment
+} from './api.ts';
+import {Feedback} from '../types/feedback.ts';
 
 export enum OffersReducerName {
   offers = 'offers'
@@ -20,6 +30,12 @@ export type OffersState = {
   activeOfferId: Offer['id'] | null;
   isOffersLoading: boolean;
   error: string | null;
+  currentOffer: OfferDetails | null;
+  nearbyOffers: Offer[];
+  feedbacks: Feedback[];
+  isOfferLoading: boolean;
+  isCommentsLoading: boolean;
+  isCommentSubmitting: boolean;
 };
 
 export const initialOffersState: OffersState = {
@@ -30,6 +46,12 @@ export const initialOffersState: OffersState = {
   activeOfferId: null,
   isOffersLoading: true,
   error: null,
+  currentOffer: null,
+  nearbyOffers: [],
+  feedbacks: [],
+  isOfferLoading: false,
+  isCommentsLoading: false,
+  isCommentSubmitting: false,
 };
 
 export const offersReducer = createReducer(initialOffersState, (builder) => {
@@ -58,6 +80,42 @@ export const offersReducer = createReducer(initialOffersState, (builder) => {
     .addCase(loadOffers.rejected, (state, action) => {
       state.isOffersLoading = false;
       state.error = action.error.message ?? 'Failed to load offers';
+    })
+    .addCase(getOfferDetails.pending, (state) => {
+      state.isOfferLoading = true;
+      state.currentOffer = null;
+    })
+    .addCase(getOfferDetails.fulfilled, (state, action) => {
+      state.isOfferLoading = false;
+      state.currentOffer = action.payload;
+    })
+    .addCase(getOfferDetails.rejected, (state) => {
+      state.isOfferLoading = false;
+      state.currentOffer = null;
+    })
+    .addCase(getOffersNearby.fulfilled, (state, action) => {
+      state.nearbyOffers = action.payload;
+    })
+    .addCase(getOfferComments.pending, (state) => {
+      state.isCommentsLoading = true;
+    })
+    .addCase(getOfferComments.fulfilled, (state, action) => {
+      state.isCommentsLoading = false;
+      state.feedbacks = action.payload;
+    })
+    .addCase(getOfferComments.rejected, (state) => {
+      state.isCommentsLoading = false;
+      state.feedbacks = [];
+    })
+    .addCase(submitOfferComment.pending, (state) => {
+      state.isCommentSubmitting = true;
+    })
+    .addCase(submitOfferComment.fulfilled, (state, action) => {
+      state.isCommentSubmitting = false;
+      state.feedbacks.push(action.payload);
+    })
+    .addCase(submitOfferComment.rejected, (state) => {
+      state.isCommentSubmitting = false;
     });
 });
 

@@ -1,9 +1,9 @@
 import react, {useEffect} from 'react';
 import {Helmet} from 'react-helmet-async';
-import FavoriteOffersList from '../components/favoriteOffers/favoriteOffersList.tsx';
+import FavoriteOffersList from '../components/favorite-offers/favorite-offers-list.tsx';
 import {AppRoute} from '../const/routes.ts';
 import {Link} from 'react-router-dom';
-import {useAppDispatch, useAppSelector} from '../store/typedHooks.ts';
+import {useAppDispatch, useAppSelector} from '../store/typed-hooks.ts';
 import {OffersByCity} from '../types/offer.ts';
 import {loadOffers} from '../store/api.ts';
 import Header from '../components/header.tsx';
