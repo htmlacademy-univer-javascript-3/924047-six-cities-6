@@ -1,12 +1,12 @@
 import react from 'react';
 import {Helmet} from 'react-helmet-async';
-import FeedbackForm from '../components/feedback/feedbackForm.tsx';
-import FeedbackList from '../components/feedback/feedbackList.tsx';
+import FeedbackForm from '../components/feedback/feedback-form.tsx';
+import FeedbackList from '../components/feedback/feedback-list.tsx';
 import {feedbacksMockData} from '../mocks/feedbacks.ts';
 import {MapPoint} from '../widgets/map/types.ts';
 import MapWidget from '../widgets/map/map.tsx';
 import OffersList from '../components/offers/offersList.tsx';
-import {useAppSelector} from '../store/typedHooks.ts';
+import {useAppSelector} from '../store/typed-hooks.ts';
 import Header from '../components/header.tsx';
 
 function OfferPage(): react.JSX.Element {

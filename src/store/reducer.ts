@@ -2,7 +2,7 @@ import {CitiesMap, City} from '../types/city.ts';
 import {Offer, OffersByCity} from '../types/offer.ts';
 import {createReducer} from '@reduxjs/toolkit';
 import {setActiveOffer, setCity, setOffers} from './action.ts';
-import {extractCities, groupOffersByCity} from '../utils/citiesUtils.ts';
+import {extractCities, groupOffersByCity} from '../utils/cities-utils.ts';
 import {defaultCity} from '../const/cities.ts';
 import {UserAuth} from '../types/user.ts';
 import {AuthorizationStatus} from '../const/routes.ts';

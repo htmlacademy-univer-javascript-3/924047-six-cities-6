@@ -1,9 +1,9 @@
 import react, {useEffect} from 'react';
 import {Helmet} from 'react-helmet-async';
-import {useAppDispatch, useAppSelector} from '../store/typedHooks.ts';
+import {useAppDispatch, useAppSelector} from '../store/typed-hooks.ts';
 import {setCity} from '../store/action.ts';
 import {City} from '../types/city.ts';
-import {CityList} from '../components/cities/citiesList.tsx';
+import {CityList} from '../components/cities/cities-list.tsx';
 import {Spinner} from '../components/spinner.tsx';
 import {OffersContainer} from '../components/offers-container.tsx';
 import {loadOffers} from '../store/api.ts';

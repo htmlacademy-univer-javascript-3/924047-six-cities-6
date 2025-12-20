@@ -1,6 +1,6 @@
 import react, {Fragment} from 'react';
 import {Feedback} from '../../types/feedback.ts';
-import FeedbackCard from './feedbackCard.tsx';
+import FeedbackCard from './feedback-card.tsx';
 
 
 type FeedbackListProps = {

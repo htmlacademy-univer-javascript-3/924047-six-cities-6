@@ -1,7 +1,7 @@
 import react, {FormEvent, useEffect, useState} from 'react';
 import {Helmet} from 'react-helmet-async';
 import Header from '../components/header.tsx';
-import {useAppDispatch, useAppSelector} from '../store/typedHooks.ts';
+import {useAppDispatch, useAppSelector} from '../store/typed-hooks.ts';
 import {useNavigate} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../const/routes.ts';
 import {login} from '../store/api.ts';

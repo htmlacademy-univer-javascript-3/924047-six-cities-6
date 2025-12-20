@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import React from 'react';
 import {AppRoute, AuthorizationStatus} from '../const/routes.ts';
-import {useAppDispatch, useAppSelector} from '../store/typedHooks.ts';
+import {useAppDispatch, useAppSelector} from '../store/typed-hooks.ts';
 import {logout} from '../store/api.ts';
 
 type Props = {

@@ -1,7 +1,7 @@
 import react from 'react';
 import {Navigate} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../const/routes';
-import {useAppSelector} from '../store/typedHooks.ts';
+import {useAppSelector} from '../store/typed-hooks.ts';
 import {Spinner} from './spinner.tsx';
 
 type PrivateRouteProps = {

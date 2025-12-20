@@ -1,6 +1,6 @@
 import react from 'react';
 import {OffersByCity} from '../../types/offer.ts';
-import FavoriteOfferCard from './favoriteOfferCard.tsx';
+import FavoriteOfferCard from './favorite-offer-card.tsx';
 
 type FavoriteOffersListProps = {
   offers: OffersByCity;

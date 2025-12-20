@@ -1,13 +1,13 @@
 import {Select} from './select.tsx';
-import {sortOptions} from '../const/sortOptions.ts';
+import {sortOptions} from '../const/sort-options.ts';
 import OffersList from './offers/offersList.tsx';
 import MapWidget from '../widgets/map/map.tsx';
 import {MapPoint} from '../widgets/map/types.ts';
 import {Offer} from '../types/offer.ts';
 import {setActiveOffer, setOffers} from '../store/action.ts';
 import {SelectOption} from '../types/select.ts';
-import {getSortedOffers} from '../utils/offersSort.ts';
-import {useAppDispatch, useAppSelector} from '../store/typedHooks.ts';
+import {getSortedOffers} from '../utils/offers-sort.ts';
+import {useAppDispatch, useAppSelector} from '../store/typed-hooks.ts';
 import {useState} from 'react';
 
 export function OffersContainer() {
