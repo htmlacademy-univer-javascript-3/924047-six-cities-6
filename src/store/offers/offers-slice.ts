@@ -5,12 +5,15 @@ import { Feedback } from '../../types/feedback.ts';
 import { defaultCity } from '../../const/cities.ts';
 import { extractCities, groupOffersByCity } from '../../utils/cities-utils.ts';
 import {
+  getFavoriteOffers,
   getOfferComments,
   getOfferDetails,
   getOffersNearby,
   loadOffers,
   submitOfferComment,
+  updateFavoriteOfferStatus,
 } from './api.ts';
+import {logout} from '../user/api.ts';
 
 export enum OffersReducerName {
   offers = 'offers',
@@ -30,6 +33,8 @@ export type OffersState = {
   isOfferLoading: boolean;
   isCommentsLoading: boolean;
   isCommentSubmitting: boolean;
+  isFavoritesLoading: boolean;
+  favorites: Offer[];
 };
 
 const initialState: OffersState = {
@@ -46,6 +51,8 @@ const initialState: OffersState = {
   isOfferLoading: false,
   isCommentsLoading: false,
   isCommentSubmitting: false,
+  isFavoritesLoading: true,
+  favorites: [],
 };
 
 export const offersSlice = createSlice({
@@ -132,6 +139,70 @@ export const offersSlice = createSlice({
       )
       .addCase(submitOfferComment.rejected, (state) => {
         state.isCommentSubmitting = false;
+      })
+      .addCase(updateFavoriteOfferStatus.fulfilled, (state, action) => {
+        const updateOffer = action.payload;
+
+        if (state.currentOffer && state.currentOffer.id === updateOffer.id) {
+          state.currentOffer.isFavorite = updateOffer.isFavorite;
+        }
+
+        Object.values(state.offers).forEach((cityOffers) => {
+          cityOffers.forEach((offer) => {
+            if (offer.id === updateOffer.id) {
+              offer.isFavorite = updateOffer.isFavorite;
+            }
+          });
+        });
+
+        const cityOffer = state.currentCityOffers.find(
+          (o) => o.id === updateOffer.id
+        );
+        if (cityOffer) {
+          cityOffer.isFavorite = updateOffer.isFavorite;
+        }
+
+        const nearby = state.nearbyOffers.find(
+          (offer) => offer.id === updateOffer.id
+        );
+        if (nearby) {
+          nearby.isFavorite = updateOffer.isFavorite;
+        }
+
+        if (updateOffer.isFavorite) {
+          const {id, title, type, price, city, location, isFavorite, isPremium, rating } = updateOffer;
+          const previewImage = updateOffer.images[0];
+          state.favorites.push({id, title, type, price, city, location, isFavorite, isPremium, rating, previewImage});
+        } else {
+          state.favorites = state.favorites.filter((offer) => offer.id !== updateOffer.id);
+        }
+      })
+      .addCase(getFavoriteOffers.fulfilled, (state, action) => {
+        state.isFavoritesLoading = false;
+        state.favorites = action.payload;
+      })
+      .addCase(getFavoriteOffers.pending, (state) => {
+        state.isFavoritesLoading = true;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        if (state.currentOffer) {
+          state.currentOffer.isFavorite = false;
+        }
+        state.nearbyOffers.forEach((offer) => {
+          offer.isFavorite = false;
+        });
+
+        Object.values(state.offers).forEach((cityOffers) => {
+          cityOffers.forEach((offer) => {
+            offer.isFavorite = false;
+          });
+        });
+
+        state.currentCityOffers.forEach((offer) => {
+          offer.isFavorite = false;
+        });
+
+        state.favorites = [];
       });
   },
 });

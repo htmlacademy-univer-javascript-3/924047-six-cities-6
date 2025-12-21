@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {Offer, OfferDetails} from '../../types/offer.ts';
 import {ThunkExtraArguments} from '../index.ts';
-import {commentsUrl, offersUrl} from '../../const/api.ts';
+import {commentsUrl, favoritesUrl, offersUrl} from '../../const/api.ts';
 import {Feedback, FeedbackData} from '../../types/feedback.ts';
 
 export type AppThunkConfig = {
@@ -95,3 +95,42 @@ export const submitOfferComment = createAsyncThunk<
     }
   }
 );
+
+export const getFavoriteOffers = createAsyncThunk<
+  Offer[],
+  void,
+  AppThunkConfig
+>(
+  'offers/getFavorite',
+  async (_, { extra, rejectWithValue }) => {
+    try {
+      const { data } = await extra.axios.get<Offer[]>(
+        favoritesUrl.favorite
+      );
+
+      return data;
+    } catch {
+      return rejectWithValue('Failed to load favorites offers');
+    }
+  }
+);
+
+export const updateFavoriteOfferStatus = createAsyncThunk<
+  OfferDetails,
+  { offerId: string; status: number },
+  AppThunkConfig
+>(
+  'offers/updateFavorite',
+  async ({offerId, status}, { extra, rejectWithValue }) => {
+    try {
+      const { data } = await extra.axios.post<OfferDetails>(
+        favoritesUrl.favoriteStatus(offerId, status),
+      );
+
+      return data;
+    } catch {
+      return rejectWithValue('Failed change offer favorite status');
+    }
+  }
+);
+

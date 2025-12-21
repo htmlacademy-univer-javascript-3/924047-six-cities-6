@@ -4,7 +4,6 @@ import FavoriteOffersList from '../components/favorite-offers/favorite-offers-li
 import {AppRoute} from '../const/routes.ts';
 import {Link} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../store/typed-hooks.ts';
-import {OffersByCity} from '../types/offer.ts';
 import {loadOffers} from '../store/offers/api.ts';
 import Header from '../components/common/header.tsx';
 
@@ -14,35 +13,34 @@ function FavoritesPage(): react.JSX.Element {
     dispatch(loadOffers());
   }, [dispatch]);
 
-  const offers = useAppSelector((state) => state.offers.offers);
-
-  const favoriteOffers = Object.entries(offers).reduce<OffersByCity>(
-    (acc, [city, cityOffers]) => {
-      const favorites = cityOffers.filter((o) => o.isFavorite);
-      if (favorites.length > 0) {
-        acc[city] = favorites;
-      }
-      return acc;
-    },
-    {}
-  );
-  const favoritesCounter = Object.values(favoriteOffers).flat().length;
+  const favoriteOffers = useAppSelector((state) => state.offers.favorites);
 
   return (
     <div className="page">
       <Helmet>
         <title> 6 cities - favorites </title>
       </Helmet>
-      <Header favoritesCount={favoritesCounter} />
+      <Header />
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
-              <FavoriteOffersList offers={favoriteOffers}/>
-            </ul>
-          </section>
+          {favoriteOffers.length > 0 ?
+            <section className="favorites">
+              <h1 className="favorites__title">Saved listing</h1>
+              <ul className="favorites__list">
+                <FavoriteOffersList offers={favoriteOffers}/>
+              </ul>
+            </section>
+            :
+            <section className="favorites favorites--empty">
+              <h1 className="visually-hidden">Favorites (empty)</h1>
+              <div className="favorites__status-wrapper">
+                <b className="favorites__status">Nothing yet saved.</b>
+                <p className="favorites__status-description">Save properties to narrow down search or plan your future
+                trips.
+                </p>
+              </div>
+            </section>}
         </div>
       </main>
       <footer className="footer container">

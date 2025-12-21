@@ -44,3 +44,8 @@ export const userUrl = {
   login: '/login',
   logout: '/logout',
 };
+
+export const favoritesUrl = {
+  favorite: '/favorite',
+  favoriteStatus: (offerId: string, status: number) => `/favorite/${offerId}/${status}`,
+};

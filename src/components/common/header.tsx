@@ -4,11 +4,7 @@ import {AppRoute, AuthorizationStatus} from '../../const/routes.ts';
 import {useAppDispatch, useAppSelector} from '../../store/typed-hooks.ts';
 import {logout} from '../../store/user/api.ts';
 
-type Props = {
-  favoritesCount?: number;
-};
-
-function Header({ favoritesCount = 0 }: Props): React.JSX.Element {
+function Header(): React.JSX.Element {
   const dispatch = useAppDispatch();
   const {authorizationStatus, user} = useAppSelector(
     (state) => ({
@@ -18,6 +14,7 @@ function Header({ favoritesCount = 0 }: Props): React.JSX.Element {
   );
   const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
   const userEmail = user?.email || 'user@example.com';
+  const favoritesCount = useAppSelector((state) => state.offers.favorites.length);
 
   const handleLogout = () => {
     dispatch(logout());

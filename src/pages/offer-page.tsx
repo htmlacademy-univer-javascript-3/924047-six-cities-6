@@ -7,13 +7,15 @@ import MapWidget from '../widgets/map/map.tsx';
 import OffersList from '../components/offers/offers-list.tsx';
 import {useAppDispatch, useAppSelector} from '../store/typed-hooks.ts';
 import Header from '../components/common/header.tsx';
-import {AuthorizationStatus} from '../const/routes.ts';
-import {useParams} from 'react-router-dom';
+import {AppRoute, AuthorizationStatus} from '../const/routes.ts';
+import {useNavigate, useParams} from 'react-router-dom';
 import {Spinner} from '../components/common/spinner.tsx';
 import NotFoundPage from './not-found-page.tsx';
-import {getOfferComments, getOfferDetails, getOffersNearby} from '../store/offers/api.ts';
+import {getOfferComments, getOfferDetails, getOffersNearby, updateFavoriteOfferStatus} from '../store/offers/api.ts';
 
 function OfferPage(): react.JSX.Element {
+  const navigate = useNavigate();
+
   const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
   const currentCity = useAppSelector((state) => state.offers.currentCity);
@@ -56,6 +58,20 @@ function OfferPage(): react.JSX.Element {
 
   const offer = currentOffer;
 
+  const handleBookmarkClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      navigate(AppRoute.Login);
+      return;
+    }
+    if (currentOffer) {
+      const newStatus = offer.isFavorite ? 0 : 1;
+      dispatch(updateFavoriteOfferStatus({ offerId: offer.id, status: newStatus }));
+    }
+  };
+
   return (
     <div className="page">
       <Helmet>
@@ -88,7 +104,10 @@ function OfferPage(): react.JSX.Element {
                 <h1 className="offer__name">
                   {offer.title}
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
+                <button className={offer.isFavorite ? 'offer__bookmark-button button offer__bookmark-button--active' : 'offer__bookmark-button button'}
+                  type="button"
+                  onClick={handleBookmarkClick}
+                >
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
