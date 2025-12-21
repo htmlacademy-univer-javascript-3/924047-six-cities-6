@@ -1,18 +1,22 @@
-import {configureStore} from '@reduxjs/toolkit';
-import {Reducer} from 'redux';
-import {offersReducer, OffersReducerName, userReducer, UserReducerName} from './reducer.ts';
-import {createAPI} from '../const/api.ts';
-import {AxiosInstance} from 'axios';
+import { configureStore } from '@reduxjs/toolkit';
+import { offersReducer } from './offers-slice';
+import { userReducer } from './user-slice';
+import { createAPI } from '../const/api';
+import { AxiosInstance } from 'axios';
 
-export type ThunkExtraArguments = {axios: AxiosInstance};
-type RootReducerName = OffersReducerName | UserReducerName;
+export type ThunkExtraArguments = {
+  axios: AxiosInstance;
+};
 
 export const store = configureStore({
   reducer: {
-    [OffersReducerName.offers]: offersReducer,
-    [UserReducerName.user]: userReducer,
-  } satisfies Record<RootReducerName, Reducer>,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-    thunk: {extraArgument: {axios: createAPI()} satisfies ThunkExtraArguments},
-  }),
+    offers: offersReducer,
+    user: userReducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      thunk: {
+        extraArgument: { axios: createAPI() } satisfies ThunkExtraArguments,
+      },
+    }),
 });

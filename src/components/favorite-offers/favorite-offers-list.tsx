@@ -1,4 +1,4 @@
-import react from 'react';
+import react, {memo} from 'react';
 import {OffersByCity} from '../../types/offer.ts';
 import FavoriteOfferCard from './favorite-offer-card.tsx';
 
@@ -27,4 +27,4 @@ function FavoriteOffersList({offers}: FavoriteOffersListProps): react.JSX.Elemen
   );
 }
 
-export default FavoriteOffersList;
+export default memo(FavoriteOffersList);

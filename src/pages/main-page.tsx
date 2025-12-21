@@ -1,7 +1,7 @@
-import react, {useEffect} from 'react';
+import react, {useEffect, useCallback} from 'react';
 import {Helmet} from 'react-helmet-async';
 import {useAppDispatch, useAppSelector} from '../store/typed-hooks.ts';
-import {setCity} from '../store/action.ts';
+import {setCity} from '../store/offers-slice.ts';
 import {City} from '../types/city.ts';
 import {CityList} from '../components/cities/cities-list.tsx';
 import {Spinner} from '../components/spinner.tsx';
@@ -15,9 +15,9 @@ function MainPage(): react.JSX.Element {
   const isLoading = useAppSelector((state) => state.offers.isOffersLoading);
   const currentCity = useAppSelector((state) => state.offers.currentCity);
 
-  const setActiveCity = (city: City) => {
+  const setActiveCity = useCallback((city: City) => {
     dispatch(setCity(city));
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(loadOffers());

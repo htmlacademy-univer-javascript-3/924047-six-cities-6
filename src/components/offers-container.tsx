@@ -4,11 +4,11 @@ import OffersList from './offers/offers-list.tsx';
 import MapWidget from '../widgets/map/map.tsx';
 import {MapPoint} from '../widgets/map/types.ts';
 import {Offer} from '../types/offer.ts';
-import {setActiveOffer, setOffers} from '../store/action.ts';
+import {setActiveOffer, setOffers} from '../store/offers-slice.ts';
 import {SelectOption} from '../types/select.ts';
 import {getSortedOffers} from '../utils/offers-sort.ts';
 import {useAppDispatch, useAppSelector} from '../store/typed-hooks.ts';
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 
 export function OffersContainer() {
   const dispatch = useAppDispatch();
@@ -19,16 +19,16 @@ export function OffersContainer() {
 
   const [sort, setSort] = useState<SelectOption['key']>(sortOptions[0].key);
 
-  function handleSortChange(sortOption: SelectOption['key']) {
+  const handleSortChange = useCallback((sortOption: SelectOption['key']) => {
     setSort(sortOption);
 
     const sortedOffers = getSortedOffers(offers, sortOption);
     dispatch(setOffers(sortedOffers));
-  }
+  }, [offers, dispatch]);
 
-  const handleOfferHover = (offerId: Offer['id']) => {
+  const handleOfferHover = useCallback((offerId: Offer['id']) => {
     dispatch(setActiveOffer(offerId));
-  };
+  }, [dispatch]);
 
   const markers: MapPoint[] = offers.map((offer) => ({
     id: offer.id,
@@ -44,7 +44,7 @@ export function OffersContainer() {
         <Select
           options={sortOptions}
           activeOptionKey={sort}
-          onSelect={(sortOption) => handleSortChange(sortOption)}
+          onSelect={handleSortChange}
         >
         Sort by
         </Select>
