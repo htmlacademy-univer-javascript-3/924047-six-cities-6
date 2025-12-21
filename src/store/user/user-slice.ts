@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { AuthorizationStatus } from '../const/routes';
-import { UserAuth } from '../types/user';
-import { checkAuth, login, logout } from './api';
+import { AuthorizationStatus } from '../../const/routes.ts';
+import { UserAuth } from '../../types/user.ts';
+import { checkAuth, login, logout } from './api.ts';
 
 export enum UserReducerName {
   user = 'user',

@@ -1,7 +1,7 @@
 import react from 'react';
 import {Link} from 'react-router-dom';
 import {Helmet} from 'react-helmet-async';
-import Header from '../components/header.tsx';
+import Header from '../components/common/header.tsx';
 
 function NotFoundPage(): react.JSX.Element {
   return (

@@ -1,10 +1,10 @@
 import react, {FormEvent, useEffect, useState} from 'react';
 import {Helmet} from 'react-helmet-async';
-import Header from '../components/header.tsx';
+import Header from '../components/common/header.tsx';
 import {useAppDispatch, useAppSelector} from '../store/typed-hooks.ts';
 import {useNavigate} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../const/routes.ts';
-import {login} from '../store/api.ts';
+import {login} from '../store/user/api.ts';
 import React from 'react';
 
 function LoginPage(): react.JSX.Element {

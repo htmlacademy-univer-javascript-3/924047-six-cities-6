@@ -6,12 +6,12 @@ import {MapPoint} from '../widgets/map/types.ts';
 import MapWidget from '../widgets/map/map.tsx';
 import OffersList from '../components/offers/offers-list.tsx';
 import {useAppDispatch, useAppSelector} from '../store/typed-hooks.ts';
-import Header from '../components/header.tsx';
+import Header from '../components/common/header.tsx';
 import {AuthorizationStatus} from '../const/routes.ts';
 import {useParams} from 'react-router-dom';
-import {Spinner} from '../components/spinner.tsx';
+import {Spinner} from '../components/common/spinner.tsx';
 import NotFoundPage from './not-found-page.tsx';
-import {getOfferComments, getOfferDetails, getOffersNearby} from '../store/api.ts';
+import {getOfferComments, getOfferDetails, getOffersNearby} from '../store/offers/api.ts';
 
 function OfferPage(): react.JSX.Element {
   const dispatch = useAppDispatch();

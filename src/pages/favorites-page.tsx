@@ -5,15 +5,14 @@ import {AppRoute} from '../const/routes.ts';
 import {Link} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../store/typed-hooks.ts';
 import {OffersByCity} from '../types/offer.ts';
-import {loadOffers} from '../store/api.ts';
-import Header from '../components/header.tsx';
+import {loadOffers} from '../store/offers/api.ts';
+import Header from '../components/common/header.tsx';
 
 function FavoritesPage(): react.JSX.Element {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(loadOffers());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
 
   const offers = useAppSelector((state) => state.offers.offers);
 

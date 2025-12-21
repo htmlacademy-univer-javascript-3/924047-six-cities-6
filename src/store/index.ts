@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { offersReducer } from './offers-slice';
-import { userReducer } from './user-slice';
+import { offersReducer } from './offers/offers-slice.ts';
+import { userReducer } from './user/user-slice.ts';
 import { createAPI } from '../const/api';
 import { AxiosInstance } from 'axios';
 

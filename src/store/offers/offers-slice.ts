@@ -1,16 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { City, CitiesMap } from '../types/city';
-import { Offer, OfferDetails, OffersByCity } from '../types/offer';
-import { Feedback } from '../types/feedback';
-import { defaultCity } from '../const/cities';
-import { extractCities, groupOffersByCity } from '../utils/cities-utils';
+import { City, CitiesMap } from '../../types/city.ts';
+import { Offer, OfferDetails, OffersByCity } from '../../types/offer.ts';
+import { Feedback } from '../../types/feedback.ts';
+import { defaultCity } from '../../const/cities.ts';
+import { extractCities, groupOffersByCity } from '../../utils/cities-utils.ts';
 import {
   getOfferComments,
   getOfferDetails,
   getOffersNearby,
   loadOffers,
   submitOfferComment,
-} from './api';
+} from './api.ts';
 
 export enum OffersReducerName {
   offers = 'offers',

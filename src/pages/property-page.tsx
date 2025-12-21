@@ -1,6 +1,6 @@
 import react from 'react';
 import {Helmet} from 'react-helmet-async';
-import Header from '../components/header.tsx';
+import Header from '../components/common/header.tsx';
 
 function PropertyPage(): react.JSX.Element {
   return (

@@ -6,9 +6,9 @@ import {AppRoute} from '../../const/routes.ts';
 import LoginPage from '../../pages/login-page.tsx';
 import FavoritesPage from '../../pages/favorites-page.tsx';
 import OfferPage from '../../pages/offer-page.tsx';
-import AuthorizedRoute from '../authorized-route.tsx';
+import AuthorizedRoute from '../common/authorized-route.tsx';
 import { HelmetProvider } from 'react-helmet-async';
-import {checkAuth} from '../../store/api.ts';
+import {checkAuth} from '../../store/user/api.ts';
 import {useAppDispatch} from '../../store/typed-hooks.ts';
 
 function App(): react.JSX.Element {

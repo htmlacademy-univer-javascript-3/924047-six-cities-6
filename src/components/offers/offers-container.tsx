@@ -1,14 +1,15 @@
-import {Select} from './select.tsx';
-import {sortOptions} from '../const/sort-options.ts';
-import OffersList from './offers/offers-list.tsx';
-import MapWidget from '../widgets/map/map.tsx';
-import {MapPoint} from '../widgets/map/types.ts';
-import {Offer} from '../types/offer.ts';
-import {setActiveOffer, setOffers} from '../store/offers-slice.ts';
-import {SelectOption} from '../types/select.ts';
-import {getSortedOffers} from '../utils/offers-sort.ts';
-import {useAppDispatch, useAppSelector} from '../store/typed-hooks.ts';
+import {Select} from '../common/select.tsx';
+import {sortOptions} from '../../const/sort-options.ts';
+import OffersList from './offers-list.tsx';
+import MapWidget from '../../widgets/map/map.tsx';
+import {MapPoint} from '../../widgets/map/types.ts';
+import {Offer} from '../../types/offer.ts';
+import {setActiveOffer, setOffers} from '../../store/offers/offers-slice.ts';
+import {SelectOption} from '../../types/select.ts';
+import {getSortedOffers} from '../../utils/offers-sort.ts';
+import {useAppDispatch, useAppSelector} from '../../store/typed-hooks.ts';
 import {useCallback, useState} from 'react';
+import EmptyOffers from './empty-offers.tsx';
 
 export function OffersContainer() {
   const dispatch = useAppDispatch();
@@ -35,6 +36,10 @@ export function OffersContainer() {
     coordinates: offer.location,
     popupNode: offer.title
   }));
+
+  if (offers.length === 0) {
+    return <EmptyOffers city={currentCity}/>;
+  }
 
   return(
     <div className="cities__places-container container">
