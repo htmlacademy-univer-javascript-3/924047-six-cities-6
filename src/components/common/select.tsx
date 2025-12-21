@@ -1,6 +1,6 @@
 import {FC, MouseEventHandler, ReactNode, useRef, useState} from 'react';
-import {SelectOption} from '../types/select.ts';
-import {useOutsideClick} from '../utils/use-outside-click.ts';
+import {SelectOption} from '../../types/select.ts';
+import {useOutsideClick} from '../../utils/use-outside-click.ts';
 
 type SelectProps = {
   options: SelectOption[];

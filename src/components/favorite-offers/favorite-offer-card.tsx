@@ -2,6 +2,8 @@ import react, {memo} from 'react';
 import {Offer} from '../../types/offer.ts';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const/routes.ts';
+import {useAppDispatch} from '../../store/typed-hooks.ts';
+import {updateFavoriteOfferStatus} from '../../store/offers/api.ts';
 
 type FavoriteOfferCardProps = {
   offer: Offer;
@@ -9,6 +11,15 @@ type FavoriteOfferCardProps = {
 
 function FavoriteOfferCard({offer}: FavoriteOfferCardProps): react.JSX.Element {
   const {id, previewImage, isPremium, price, rating, title, type} = offer;
+
+  const dispatch = useAppDispatch();
+
+  const handleBookmarkClick = (e: react.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    dispatch(updateFavoriteOfferStatus({ offerId: offer.id, status: 0 }));
+  };
 
   return (
     <article className="favorites__card place-card">
@@ -32,7 +43,7 @@ function FavoriteOfferCard({offer}: FavoriteOfferCardProps): react.JSX.Element {
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button className="place-card__bookmark-button place-card__bookmark-button--active button"
-            type="button"
+            type="button" onClick={handleBookmarkClick}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

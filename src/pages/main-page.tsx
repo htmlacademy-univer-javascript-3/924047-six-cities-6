@@ -1,13 +1,13 @@
 import react, {useEffect, useCallback} from 'react';
 import {Helmet} from 'react-helmet-async';
 import {useAppDispatch, useAppSelector} from '../store/typed-hooks.ts';
-import {setCity} from '../store/offers-slice.ts';
+import {setCity} from '../store/offers/offers-slice.ts';
 import {City} from '../types/city.ts';
 import {CityList} from '../components/cities/cities-list.tsx';
-import {Spinner} from '../components/spinner.tsx';
-import {OffersContainer} from '../components/offers-container.tsx';
-import {loadOffers} from '../store/api.ts';
-import Header from '../components/header.tsx';
+import {Spinner} from '../components/common/spinner.tsx';
+import {OffersContainer} from '../components/offers/offers-container.tsx';
+import {loadOffers} from '../store/offers/api.ts';
+import Header from '../components/common/header.tsx';
 
 function MainPage(): react.JSX.Element {
   const dispatch = useAppDispatch();
@@ -21,8 +21,7 @@ function MainPage(): react.JSX.Element {
 
   useEffect(() => {
     dispatch(loadOffers());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="page">

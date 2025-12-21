@@ -1,7 +1,7 @@
 import react, {FormEventHandler, Fragment, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../store/typed-hooks.ts';
 import React from 'react';
-import {submitOfferComment} from '../../store/api.ts';
+import {submitOfferComment} from '../../store/offers/api.ts';
 
 function FeedbackForm(): react.JSX.Element {
   const dispatch = useAppDispatch();

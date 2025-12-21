@@ -1,10 +1,8 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {Offer, OfferDetails} from '../types/offer.ts';
-import {ThunkExtraArguments} from './index.ts';
-import {commentsUrl, offersUrl, userUrl} from '../const/api.ts';
-import {UserAuth} from '../types/user.ts';
-import {AxiosError} from 'axios';
-import {Feedback, FeedbackData} from '../types/feedback.ts';
+import {Offer, OfferDetails} from '../../types/offer.ts';
+import {ThunkExtraArguments} from '../index.ts';
+import {commentsUrl, favoritesUrl, offersUrl} from '../../const/api.ts';
+import {Feedback, FeedbackData} from '../../types/feedback.ts';
 
 export type AppThunkConfig = {
     extra: ThunkExtraArguments;
@@ -98,63 +96,41 @@ export const submitOfferComment = createAsyncThunk<
   }
 );
 
-export const checkAuth = createAsyncThunk<
-  UserAuth,
+export const getFavoriteOffers = createAsyncThunk<
+  Offer[],
   void,
   AppThunkConfig
 >(
-  'user/checkAuth',
+  'offers/getFavorite',
   async (_, { extra, rejectWithValue }) => {
     try {
-      const { data } = await extra.axios.get<UserAuth>(
-        userUrl.login,
+      const { data } = await extra.axios.get<Offer[]>(
+        favoritesUrl.favorite
       );
 
       return data;
     } catch {
-      return rejectWithValue('Failed to load offers');
+      return rejectWithValue('Failed to load favorites offers');
     }
   }
 );
 
-export const login = createAsyncThunk<
-  UserAuth,
-  { email: string; password: string },
+export const updateFavoriteOfferStatus = createAsyncThunk<
+  OfferDetails,
+  { offerId: string; status: number },
   AppThunkConfig
 >(
-  'user/login',
-  async ({ email, password }, { extra, rejectWithValue }) => {
+  'offers/updateFavorite',
+  async ({offerId, status}, { extra, rejectWithValue }) => {
     try {
-      const { data } = await extra.axios.post<UserAuth>(
-        userUrl.login, { email, password }
+      const { data } = await extra.axios.post<OfferDetails>(
+        favoritesUrl.favoriteStatus(offerId, status),
       );
 
       return data;
-    } catch (error) {
-      const axiosError = error as AxiosError<{
-        details?: { messages: string[] }[];
-      }>;
-      return rejectWithValue(axiosError.response?.data?.details?.[0]?.messages?.[0] ??
-        'Unknown login error');
-    }
-  }
-);
-
-export const logout = createAsyncThunk<
-  boolean,
-  void,
-  AppThunkConfig
->(
-  'user/logout',
-  async (_, { extra, rejectWithValue }) => {
-    try {
-      const response = await extra.axios.delete(
-        userUrl.logout,
-      );
-
-      return response.status === 204;
     } catch {
-      return rejectWithValue('Failed to load offers');
+      return rejectWithValue('Failed change offer favorite status');
     }
   }
 );
+
