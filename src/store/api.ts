@@ -6,13 +6,15 @@ import {UserAuth} from '../types/user.ts';
 import {AxiosError} from 'axios';
 import {Feedback, FeedbackData} from '../types/feedback.ts';
 
+export type AppThunkConfig = {
+    extra: ThunkExtraArguments;
+    rejectValue: string;
+};
+
 export const loadOffers = createAsyncThunk<
   Offer[],
   void,
-  {
-    extra: ThunkExtraArguments;
-    rejectValue: string;
-  }
+  AppThunkConfig
 >(
   'offers/loadOffers',
   async (_, { extra, rejectWithValue }) => {
@@ -31,10 +33,7 @@ export const loadOffers = createAsyncThunk<
 export const getOfferDetails = createAsyncThunk<
   OfferDetails,
   string,
-  {
-    extra: ThunkExtraArguments;
-    rejectValue: string;
-  }
+  AppThunkConfig
 >(
   'offers/getOfferDetails',
   async (offerId, { extra, rejectWithValue }) => {
@@ -51,10 +50,7 @@ export const getOfferDetails = createAsyncThunk<
 export const getOffersNearby = createAsyncThunk<
   Offer[],
   string,
-  {
-    extra: ThunkExtraArguments;
-    rejectValue: string;
-  }
+  AppThunkConfig
 >(
   'offers/loadOffersNearby',
   async (offerId, { extra, rejectWithValue }) => {
@@ -71,10 +67,7 @@ export const getOffersNearby = createAsyncThunk<
 export const getOfferComments = createAsyncThunk<
   Feedback[],
   string,
-  {
-    extra: ThunkExtraArguments;
-    rejectValue: string;
-  }
+  AppThunkConfig
 >(
   'offer/getComments',
   async (offerId, { extra, rejectWithValue }) => {
@@ -91,10 +84,7 @@ export const getOfferComments = createAsyncThunk<
 export const submitOfferComment = createAsyncThunk<
   Feedback,
   { offerId: string; feedbackData: FeedbackData },
-  {
-    extra: ThunkExtraArguments;
-    rejectValue: string;
-  }
+  AppThunkConfig
 >(
   'offer/submitComment',
   async ({offerId, feedbackData}, { extra, rejectWithValue }) => {
@@ -111,10 +101,7 @@ export const submitOfferComment = createAsyncThunk<
 export const checkAuth = createAsyncThunk<
   UserAuth,
   void,
-  {
-    extra: ThunkExtraArguments;
-    rejectValue: string;
-  }
+  AppThunkConfig
 >(
   'user/checkAuth',
   async (_, { extra, rejectWithValue }) => {
@@ -133,10 +120,7 @@ export const checkAuth = createAsyncThunk<
 export const login = createAsyncThunk<
   UserAuth,
   { email: string; password: string },
-  {
-    extra: ThunkExtraArguments;
-    rejectValue: string;
-  }
+  AppThunkConfig
 >(
   'user/login',
   async ({ email, password }, { extra, rejectWithValue }) => {
@@ -159,10 +143,7 @@ export const login = createAsyncThunk<
 export const logout = createAsyncThunk<
   boolean,
   void,
-  {
-    extra: ThunkExtraArguments;
-    rejectValue: string;
-  }
+  AppThunkConfig
 >(
   'user/logout',
   async (_, { extra, rejectWithValue }) => {

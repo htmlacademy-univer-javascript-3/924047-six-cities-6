@@ -1,4 +1,4 @@
-import react from 'react';
+import react, {memo} from 'react';
 import {Offer} from '../../types/offer.ts';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const/routes.ts';
@@ -55,4 +55,4 @@ function FavoriteOfferCard({offer}: FavoriteOfferCardProps): react.JSX.Element {
   );
 }
 
-export default FavoriteOfferCard;
+export default memo(FavoriteOfferCard);

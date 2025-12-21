@@ -47,7 +47,7 @@ function FeedbackForm(): react.JSX.Element {
     setReviewText((event.target as HTMLTextAreaElement).value);
   };
   const starNames = [undefined, 'terribly', 'badly', 'not bad', 'good', 'perfect'] as const;
-  const isFormValid = stars > 0 && reviewText.length >= 50;
+  const isFormValid = stars > 0 && reviewText.length >= 50 && reviewText.length <= 300;
 
   return (
     <form className="reviews__form form" onSubmit={handleSubmit}>
@@ -55,8 +55,8 @@ function FeedbackForm(): react.JSX.Element {
       <div className="reviews__rating-form form__rating">
         {[5, 4, 3, 2, 1].map((feedbackStars) => (
           <Fragment key={feedbackStars}>
-            <input className="form__rating-input visually-hidden" name="rating" value={`${feedbackStars}`} id={`${feedbackStars}-stars`}
-              type="radio" onInput={handleStarsClick}
+            <input disabled={isSubmitting} className="form__rating-input visually-hidden" name="rating" value={`${feedbackStars}`} id={`${feedbackStars}-stars`}
+              type="radio" checked={stars === feedbackStars} onChange={handleStarsClick}
             />
             <label htmlFor={`${feedbackStars}-stars`} className="reviews__rating-label form__rating-label" title={starNames[feedbackStars]}>
               <svg className="form__star-image" width="37" height="33">
@@ -65,11 +65,10 @@ function FeedbackForm(): react.JSX.Element {
             </label>
           </Fragment>
         ))}
-
       </div>
       <textarea className="reviews__textarea form__textarea" id="review" name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        onInput={handleReviewText} value={reviewText}
+        onInput={handleReviewText} value={reviewText} disabled={isSubmitting}
       >
       </textarea>
       <div className="reviews__button-wrapper">

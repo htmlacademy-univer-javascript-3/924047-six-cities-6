@@ -1,4 +1,4 @@
-import react, {MouseEventHandler} from 'react';
+import react, {memo, MouseEventHandler} from 'react';
 import {Offer} from '../../types/offer.ts';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const/routes.ts';
@@ -10,7 +10,7 @@ type OfferCardProps = {
 
 function OfferCard({offer, onMouseEnter}: OfferCardProps): react.JSX.Element {
   return (
-    <article className="cities__card place-card" onMouseEnter={onMouseEnter}>
+    <article className="cities__card place-card" data-offer-id={offer.id} onMouseEnter={onMouseEnter}>
       {
         offer.isPremium &&
         <div className="place-card__mark">
@@ -52,4 +52,4 @@ function OfferCard({offer, onMouseEnter}: OfferCardProps): react.JSX.Element {
   );
 }
 
-export default OfferCard;
+export default memo(OfferCard);

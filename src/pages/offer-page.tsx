@@ -50,7 +50,7 @@ function OfferPage(): react.JSX.Element {
     );
   }
 
-  if (!isOfferLoading && !currentOffer && id) {
+  if (!currentOffer) {
     return <NotFoundPage />;
   }
 
