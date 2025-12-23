@@ -1,5 +1,6 @@
 import react from 'react';
 import {Feedback} from '../../types/feedback.ts';
+import {RatingDisplay} from '../../const/validation.ts';
 
 
 type FeedbackCardProps = {
@@ -23,7 +24,7 @@ function FeedbackCard({feedback}: FeedbackCardProps): react.JSX.Element {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{width: `${20 * rating}%`}}></span>
+            <span style={{width: `${RatingDisplay.StarPercentage * rating}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

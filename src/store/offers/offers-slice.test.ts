@@ -26,10 +26,10 @@ const mockOffer: Offer = {
   type: PlaceType.Apartment,
   price: 100,
   city: {
-    name: 'Amsterdam',
-    location: { latitude: 52.37454, longitude: 4.897976, zoom: 13 },
+    name: 'Paris',
+    location: { latitude: 48.8566, longitude: 2.3522, zoom: 13 },
   },
-  location: { latitude: 52.37454, longitude: 4.897976, zoom: 13 },
+  location: { latitude: 48.8566, longitude: 2.3522, zoom: 13 },
   isFavorite: false,
   isPremium: false,
   rating: 4,

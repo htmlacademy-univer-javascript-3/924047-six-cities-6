@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const/routes.ts';
 import {useAppDispatch} from '../../store/typed-hooks.ts';
 import {updateFavoriteOfferStatus} from '../../store/offers/api.ts';
+import {FavoriteStatus, RatingDisplay} from '../../const/validation.ts';
 
 type FavoriteOfferCardProps = {
   offer: Offer;
@@ -18,7 +19,7 @@ function FavoriteOfferCard({offer}: FavoriteOfferCardProps): react.JSX.Element {
     e.preventDefault();
     e.stopPropagation();
 
-    dispatch(updateFavoriteOfferStatus({ offerId: offer.id, status: 0 }));
+    dispatch(updateFavoriteOfferStatus({ offerId: offer.id, status: FavoriteStatus.NotFavorite }));
   };
 
   return (
@@ -53,14 +54,14 @@ function FavoriteOfferCard({offer}: FavoriteOfferCardProps): react.JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${rating * 20}%`}}></span>
+            <span style={{width: `${Math.round(rating) * RatingDisplay.StarPercentage}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
           <Link to={AppRoute.Offer.replace(':id', id)}>{title}</Link>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{type.charAt(0).toUpperCase() + type.slice(1)}</p>
       </div>
     </article>
   );

@@ -1,6 +1,6 @@
 import {City} from '../types/city.ts';
 
 export const defaultCity: City = {
-  name: 'Amsterdam',
-  location: {latitude: 52.37454, longitude: 4.897976, zoom: 13},
+  name: 'Paris',
+  location: {latitude: 48.8566, longitude: 2.3522, zoom: 13},
 };

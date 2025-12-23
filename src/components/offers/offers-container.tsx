@@ -8,7 +8,7 @@ import {setActiveOffer, setOffers} from '../../store/offers/offers-slice.ts';
 import {SelectOption} from '../../types/select.ts';
 import {getSortedOffers} from '../../utils/offers-sort.ts';
 import {useAppDispatch, useAppSelector} from '../../store/typed-hooks.ts';
-import {useCallback, useState} from 'react';
+import {useCallback, useState, useEffect, useRef} from 'react';
 import EmptyOffers from './empty-offers.tsx';
 
 export function OffersContainer() {
@@ -17,15 +17,38 @@ export function OffersContainer() {
   const currentCity = useAppSelector((state) => state.offers.currentCity);
   const activeOfferId = useAppSelector((state) => state.offers.activeOfferId);
   const offers = useAppSelector((state) => state.offers.currentCityOffers);
+  const originalOffers = useAppSelector((state) => state.offers.offers[currentCity.name] ?? []);
 
   const [sort, setSort] = useState<SelectOption['key']>(sortOptions[0].key);
+  const prevCityNameRef = useRef<string>(currentCity.name);
+
+  // Сбрасываем сортировку на "Popular" при изменении города
+  useEffect(() => {
+    let isMounted = true;
+
+    if (isMounted && prevCityNameRef.current !== currentCity.name) {
+      prevCityNameRef.current = currentCity.name;
+      setSort('popular');
+      // setCity уже устанавливает currentCityOffers в редьюсере, поэтому не нужно вызывать setOffers
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [currentCity.name]);
 
   const handleSortChange = useCallback((sortOption: SelectOption['key']) => {
     setSort(sortOption);
 
-    const sortedOffers = getSortedOffers(offers, sortOption);
-    dispatch(setOffers(sortedOffers));
-  }, [offers, dispatch]);
+    if (sortOption === 'popular') {
+      // Для "Popular" возвращаем исходный порядок
+      dispatch(setOffers(originalOffers));
+    } else {
+      // Для других опций применяем сортировку к исходным предложениям
+      const sortedOffers = getSortedOffers(originalOffers, sortOption);
+      dispatch(setOffers(sortedOffers));
+    }
+  }, [originalOffers, dispatch]);
 
   const handleOfferHover = useCallback((offerId: Offer['id']) => {
     dispatch(setActiveOffer(offerId));

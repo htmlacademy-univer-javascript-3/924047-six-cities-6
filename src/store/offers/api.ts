@@ -67,7 +67,7 @@ export const getOfferComments = createAsyncThunk<
   string,
   AppThunkConfig
 >(
-  'offer/getComments',
+  'offers/getComments',
   async (offerId, { extra, rejectWithValue }) => {
     try {
       const { data } = await extra.axios.get<Feedback[]>(commentsUrl.offerComments(offerId));
@@ -84,7 +84,7 @@ export const submitOfferComment = createAsyncThunk<
   { offerId: string; feedbackData: FeedbackData },
   AppThunkConfig
 >(
-  'offer/submitComment',
+  'offers/submitComment',
   async ({offerId, feedbackData}, { extra, rejectWithValue }) => {
     try {
       const { data } = await extra.axios.post<Feedback>(commentsUrl.offerComments(offerId), feedbackData);
