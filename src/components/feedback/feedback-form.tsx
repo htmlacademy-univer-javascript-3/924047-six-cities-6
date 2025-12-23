@@ -2,14 +2,13 @@ import react, {FormEventHandler, Fragment, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../store/typed-hooks.ts';
 import React from 'react';
 import {submitOfferComment} from '../../store/offers/api.ts';
+import {ReviewValidation} from '../../const/validation.ts';
 
 function FeedbackForm(): react.JSX.Element {
   const dispatch = useAppDispatch();
 
-  const { currentOffer, isSubmitting } = useAppSelector((state) => ({
-    currentOffer: state.offers.currentOffer,
-    isSubmitting: state.offers.isCommentSubmitting,
-  }));
+  const currentOffer = useAppSelector((state) => state.offers.currentOffer);
+  const isSubmitting = useAppSelector((state) => state.offers.isCommentSubmitting);
 
   const [stars, setStars] = useState(0);
   const [reviewText, setReviewText] = useState('');
@@ -47,7 +46,7 @@ function FeedbackForm(): react.JSX.Element {
     setReviewText((event.target as HTMLTextAreaElement).value);
   };
   const starNames = [undefined, 'terribly', 'badly', 'not bad', 'good', 'perfect'] as const;
-  const isFormValid = stars > 0 && reviewText.length >= 50 && reviewText.length <= 300;
+  const isFormValid = stars > 0 && reviewText.length >= ReviewValidation.MinLength && reviewText.length <= ReviewValidation.MaxLength;
 
   return (
     <form className="reviews__form form" onSubmit={handleSubmit}>
@@ -74,11 +73,11 @@ function FeedbackForm(): react.JSX.Element {
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and
-          describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
+          describe your stay with at least <b className="reviews__text-amount">{ReviewValidation.MinLength} characters</b>.
           {reviewText.length > 0 && (
             <span className="reviews__char-count">
               {' '}
-              ({reviewText.length}/50)
+              ({reviewText.length}/{ReviewValidation.MinLength})
             </span>
           )}
         </p>

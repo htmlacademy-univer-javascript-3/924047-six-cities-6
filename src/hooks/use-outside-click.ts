@@ -2,9 +2,12 @@ import {RefObject, useEffect} from 'react';
 
 export const useOutsideClick = (ref: RefObject<HTMLElement>, handler: () => void) => {
   useEffect(() => {
+    let isMounted = true;
     const handleClick = (event: MouseEvent) => {
       if (
-        ref.current
+        isMounted
+        && ref.current
+        && ref.current.isConnected
         && event.target instanceof Element && event.target.isConnected
         && !ref.current.contains(event.target)
       ) {
@@ -12,6 +15,10 @@ export const useOutsideClick = (ref: RefObject<HTMLElement>, handler: () => void
       }
     };
     document.body.addEventListener('click', handleClick);
-    return () => document.body.removeEventListener('click', handleClick);
+    return () => {
+      isMounted = false;
+      document.body.removeEventListener('click', handleClick);
+    };
   }, [ref, handler]);
 };
+

@@ -20,7 +20,15 @@ function MainPage(): react.JSX.Element {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(loadOffers());
+    let isMounted = true;
+
+    if (isMounted) {
+      dispatch(loadOffers());
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, [dispatch]);
 
   return (

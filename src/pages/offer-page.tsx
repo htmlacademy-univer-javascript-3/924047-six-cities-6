@@ -12,6 +12,25 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {Spinner} from '../components/common/spinner.tsx';
 import NotFoundPage from './not-found-page.tsx';
 import {getOfferComments, getOfferDetails, getOffersNearby, updateFavoriteOfferStatus} from '../store/offers/api.ts';
+import {OfferLimits, RatingDisplay, FavoriteStatus} from '../const/validation.ts';
+import {PlaceType} from '../types/offer.ts';
+
+const getPlaceTypeLabel = (type: string): string => {
+  switch (type) {
+    case PlaceType.Apartment:
+    case 'apartment':
+      return 'Apartment';
+    case PlaceType.Room:
+    case 'room':
+      return 'Room';
+    case 'house':
+      return 'House';
+    case 'hotel':
+      return 'Hotel';
+    default:
+      return type;
+  }
+};
 
 function OfferPage(): react.JSX.Element {
   const navigate = useNavigate();
@@ -20,25 +39,35 @@ function OfferPage(): react.JSX.Element {
   const { id } = useParams<{ id: string }>();
   const currentCity = useAppSelector((state) => state.offers.currentCity);
   const authorizationStatus = useAppSelector((state) => state.user.authorizationStatus);
-  const { currentOffer, nearbyOffers, feedbacks, isOfferLoading } =
-    useAppSelector((state) => ({
-      currentOffer: state.offers.currentOffer,
-      nearbyOffers: state.offers.nearbyOffers,
-      feedbacks: state.offers.feedbacks,
-      isOfferLoading: state.offers.isOfferLoading,
-    }));
-  const markers: MapPoint[] = nearbyOffers.map((offer) => ({
-    id: offer.id,
-    coordinates: offer.location,
-    popupNode: offer.title
-  }));
+  const currentOffer = useAppSelector((state) => state.offers.currentOffer);
+  const nearbyOffers = useAppSelector((state) => state.offers.nearbyOffers);
+  const feedbacks = useAppSelector((state) => state.offers.feedbacks);
+  const isOfferLoading = useAppSelector((state) => state.offers.isOfferLoading);
+  const markers: MapPoint[] = [
+    ...(currentOffer ? [{
+      id: currentOffer.id,
+      coordinates: currentOffer.location,
+      popupNode: currentOffer.title
+    }] : []),
+    ...nearbyOffers.slice(0, OfferLimits.MaxNearbyOffers).map((offer) => ({
+      id: offer.id,
+      coordinates: offer.location,
+      popupNode: offer.title
+    }))
+  ];
 
   useEffect(() => {
-    if (id) {
+    let isMounted = true;
+
+    if (id && isMounted) {
       dispatch(getOfferDetails(id));
       dispatch(getOffersNearby(id));
       dispatch(getOfferComments(id));
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [dispatch, id]);
 
   if (isOfferLoading) {
@@ -67,7 +96,7 @@ function OfferPage(): react.JSX.Element {
       return;
     }
     if (currentOffer) {
-      const newStatus = offer.isFavorite ? 0 : 1;
+      const newStatus = offer.isFavorite ? FavoriteStatus.NotFavorite : FavoriteStatus.Favorite;
       dispatch(updateFavoriteOfferStatus({ offerId: offer.id, status: newStatus }));
     }
   };
@@ -84,7 +113,7 @@ function OfferPage(): react.JSX.Element {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {offer.images.map((image, index) => (
+              {offer.images.slice(0, OfferLimits.MaxImages).map((image, index) => (
                 <div key={image} className="offer__image-wrapper">
                   <img
                     className="offer__image"
@@ -97,9 +126,11 @@ function OfferPage(): react.JSX.Element {
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
-              <div className="offer__mark">
-                <span>Premium</span>
-              </div>
+              {offer.isPremium && (
+                <div className="offer__mark">
+                  <span>Premium</span>
+                </div>
+              )}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
                   {offer.title}
@@ -116,14 +147,14 @@ function OfferPage(): react.JSX.Element {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: `${offer.rating * 20}%`}}></span>
+                  <span style={{width: `${Math.round(offer.rating) * RatingDisplay.StarPercentage}%`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">{offer.rating.toFixed(1)}</span>
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
-                  {offer.type}
+                  {getPlaceTypeLabel(offer.type)}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
                   {offer.bedrooms} Bedroom{offer.bedrooms !== 1 ? 's' : ''}
@@ -175,7 +206,7 @@ function OfferPage(): react.JSX.Element {
               </section>
             </div>
           </div>
-          <MapWidget mapCenter={currentCity.location} markers={markers} mapContainerClassName="offer__map map"/>
+          <MapWidget mapCenter={currentCity.location} markers={markers} activeMarkers={currentOffer ? [currentOffer.id] : []} mapContainerClassName="offer__map map"/>
         </section>
         <div className="container">
           <section className="near-places places">

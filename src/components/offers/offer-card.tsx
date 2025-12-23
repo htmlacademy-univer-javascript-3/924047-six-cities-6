@@ -4,6 +4,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const/routes.ts';
 import {useAppDispatch, useAppSelector} from '../../store/typed-hooks.ts';
 import {updateFavoriteOfferStatus} from '../../store/offers/api.ts';
+import {FavoriteStatus, RatingDisplay} from '../../const/validation.ts';
 
 type OfferCardProps = {
   offer: Offer;
@@ -24,7 +25,7 @@ function OfferCard({offer, onMouseEnter}: OfferCardProps): react.JSX.Element {
       return;
     }
 
-    const newStatus = offer.isFavorite ? 0 : 1;
+    const newStatus = offer.isFavorite ? FavoriteStatus.NotFavorite : FavoriteStatus.Favorite;
     dispatch(updateFavoriteOfferStatus({ offerId: offer.id, status: newStatus }));
   };
 
@@ -61,14 +62,14 @@ function OfferCard({offer, onMouseEnter}: OfferCardProps): react.JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${offer.rating * 20}%`}}></span>
+            <span style={{width: `${Math.round(offer.rating) * RatingDisplay.StarPercentage}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
           <Link to={AppRoute.Offer.replace(':id', offer.id)}>{offer.title}</Link>
         </h2>
-        <p className="place-card__type">{offer.type}</p>
+        <p className="place-card__type">{offer.type.charAt(0).toUpperCase() + offer.type.slice(1)}</p>
       </div>
     </article>
   );

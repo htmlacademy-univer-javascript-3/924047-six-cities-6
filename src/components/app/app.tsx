@@ -17,13 +17,27 @@ function App(): react.JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.user.authorizationStatus);
 
   useEffect(() => {
-    dispatch(checkAuth());
+    let isMounted = true;
+
+    if (isMounted) {
+      dispatch(checkAuth());
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, [dispatch]);
 
   useEffect(() => {
-    if (authorizationStatus === AuthorizationStatus.Auth) {
+    let isMounted = true;
+
+    if (isMounted && authorizationStatus === AuthorizationStatus.Auth) {
       dispatch(getFavoriteOffers());
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [dispatch, authorizationStatus]);
 
   return (

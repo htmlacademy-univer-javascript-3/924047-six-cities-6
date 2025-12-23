@@ -4,13 +4,21 @@ import FavoriteOffersList from '../components/favorite-offers/favorite-offers-li
 import {AppRoute} from '../const/routes.ts';
 import {Link} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../store/typed-hooks.ts';
-import {loadOffers} from '../store/offers/api.ts';
+import {getFavoriteOffers} from '../store/offers/api.ts';
 import Header from '../components/common/header.tsx';
 
 function FavoritesPage(): react.JSX.Element {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(loadOffers());
+    let isMounted = true;
+
+    if (isMounted) {
+      dispatch(getFavoriteOffers());
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, [dispatch]);
 
   const favoriteOffers = useAppSelector((state) => state.offers.favorites);
