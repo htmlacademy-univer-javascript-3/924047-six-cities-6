@@ -18,7 +18,11 @@ describe('useOutsideClick', () => {
 
     const div = document.createElement('div');
     document.body.appendChild(div);
-    result.current.current = div;
+    Object.defineProperty(result.current, 'current', {
+      value: div,
+      writable: true,
+      configurable: true,
+    });
 
     const outsideElement = document.createElement('div');
     document.body.appendChild(outsideElement);
@@ -40,7 +44,11 @@ describe('useOutsideClick', () => {
     const innerElement = document.createElement('span');
     div.appendChild(innerElement);
     document.body.appendChild(div);
-    result.current.current = div;
+    Object.defineProperty(result.current, 'current', {
+      value: div,
+      writable: true,
+      configurable: true,
+    });
 
     innerElement.click();
 
@@ -57,7 +65,11 @@ describe('useOutsideClick', () => {
 
     const div = document.createElement('div');
     document.body.appendChild(div);
-    result.current.current = div;
+    Object.defineProperty(result.current, 'current', {
+      value: div,
+      writable: true,
+      configurable: true,
+    });
 
     div.click();
 
@@ -76,7 +88,11 @@ describe('useOutsideClick', () => {
 
     const div = document.createElement('div');
     document.body.appendChild(div);
-    result.current.current = div;
+    Object.defineProperty(result.current, 'current', {
+      value: div,
+      writable: true,
+      configurable: true,
+    });
 
     unmount();
 
@@ -94,7 +110,11 @@ describe('useOutsideClick', () => {
 
     // Create element but don't add to DOM
     const div = document.createElement('div');
-    result.current.current = div;
+    Object.defineProperty(result.current, 'current', {
+      value: div,
+      writable: true,
+      configurable: true,
+    });
 
     // Create and add outside element to DOM
     const outsideElement = document.createElement('div');
